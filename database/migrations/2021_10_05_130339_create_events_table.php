@@ -19,11 +19,11 @@ class CreateEventsTable extends Migration
             $table->datetime('date_start');
             $table->datetime('date_finish');
 
-            $table->bigInteger('calendar_id');
-            $table->foreign('calendar_id')->references('calendar_id')->on('calendars')->onDelete('cascade');
+            // $table->bigInteger('calendar_id');
+            // $table->foreign('calendar_id')->references('calendar_id')->on('calendars')->onDelete('cascade');
 
-            $table->bigInteger('creator_id');
-            $table->foreign('creator_id')->references('user_id')->on('users')->onDelete('cascade');
+            // $table->bigInteger('creator_id');
+            // $table->foreign('creator_id')->references('user_id')->on('users')->onDelete('cascade');
 
             $table->tinyInteger('is_accepted');
             $table->tinyInteger('is_blocking');
