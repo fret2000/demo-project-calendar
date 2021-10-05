@@ -1,0 +1,39 @@
+version: "3.7"
+
+x-app-args: &app-args
+  - USER=${USER}
+
+services:
+  app:
+    build:
+      context: ./docker-compose/php-fpm
+      args: *app-args    
+    volumes:
+      - ~/.ssh:/home/${USER}/.ssh:rw
+      - ./:/var/www  
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./mysql:/var/lib/mysql
+    ports:
+      - "3307:3306"
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - 8000:80
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d/
