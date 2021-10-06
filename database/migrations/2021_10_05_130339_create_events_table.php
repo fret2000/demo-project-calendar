@@ -14,15 +14,15 @@ class CreateEventsTable extends Migration
     public function up()
     {
         Schema::create('events', function (Blueprint $table) {
-            $table->bigIncrements('event_id');
+            $table->bigIncrements('event_id')->unsigned()->nullable(false);
             $table->string('event_title');
             $table->datetime('date_start');
             $table->datetime('date_finish');
 
-            $table->bigInteger('calendar_id');
+            $table->bigInteger('calendar_id')->unsigned();
             // $table->foreign('calendar_id')->references('calendar_id')->on('calendars')->onDelete('cascade');
 
-            $table->bigInteger('creator_id');
+            $table->bigInteger('creator_id')->unsigned();
             // $table->foreign('creator_id')->references('user_id')->on('users')->onDelete('cascade');
 
             $table->tinyInteger('is_accepted');

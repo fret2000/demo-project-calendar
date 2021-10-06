@@ -14,7 +14,7 @@ class Calendars extends Migration
     public function up()
     {
         Schema::create('calendars', function (Blueprint $table) {
-            $table->bigIncrements('calendar_id');
+            $table->bigIncrements('calendar_id');//->unsigned()->nullable(false);
             $table->bigInteger('user_id')->unsigned();
             //$table->foreing('user_id')->references('user_id')->on('users')->onDelete('cascade');
         });

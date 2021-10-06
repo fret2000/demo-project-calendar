@@ -13,22 +13,40 @@ class UpdateFewTable extends Migration
      */
     public function up()
     {
-        Schema::table("calendars", function(Blueprint $table)
+        Schema::enableForeignKeyConstraints();
+
+        Schema::table('calendars', function(Blueprint $table)
         {
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')
+            ->references('user_id')
+            ->on('users')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
         });
-/*
+
         Schema::table("rooms", function(Blueprint $table)
         {
-            $table->foreign('event_id')->references('event_id')->on('events')->onDelete('cascade');
+            $table->foreign('event_id')
+            ->references('event_id')
+            ->on('events')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
         });
-        
 
-        Schema::table("events", function(Blueprint $table)
+        Schema::table('events', function(Blueprint $table)
         {
-            $table->foreign('calendar_id')->references('calendar_id')->on('calendars')->onDelete('cascade');
-            $table->foreign('creator_id')->references('user_id')->on('users')->onDelete('cascade');
-        });*/
+            $table->foreign('calendar_id')
+            ->references('calendar_id')
+            ->on('calendars')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
+
+            $table->foreign('creator_id')
+            ->references('user_id')
+            ->on('users')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
+        });
     }
 
     /**
@@ -38,20 +56,21 @@ class UpdateFewTable extends Migration
      */
     public function down()
     {
-        Schema::table('calendars', function($table)
+        Schema::table('events', function(Blueprint $table)
         {
-            $table->dropForeign(['user_id']);
+            $table->dropForeign('events_calendar_id_foreign', 'events_creator_id_foreign');
         });
 
-        Schema::table('rooms', function($table)
+        Schema::table('rooms', function(Blueprint $table)
         {
-            $table->dropForeign(['event_id']);
+            $table->dropForeign('rooms_event_id_foreign');
         });
 
-        Schema::table('events', function($table)
+        Schema::table('calendars', function(Blueprint $table)
         {
-            $table->dropForeign(['calendar_id']);
-            $table->dropForeign(['creator_id']);
+            $table->dropForeign('calendars_user_id_foreign');
         });
+
+        Schema::disableForeignKeyConstraints();
     }
 }

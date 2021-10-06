@@ -14,9 +14,9 @@ class Rooms extends Migration
     public function up()
     {
         Schema::create('rooms', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('room_id')->unsigned()->nullable(false);
             $table->string('room_name');
-            $table->integer('event_id');
+            $table->bigInteger('event_id')->unsigned();
            // $table->foreign('event_id')->references('event_id')->on('events')->onDelete('cascade');
         });
     }

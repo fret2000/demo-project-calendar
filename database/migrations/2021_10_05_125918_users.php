@@ -14,9 +14,9 @@ class Users extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('user_id')->unsigned()->nullable(false);
             $table->string('platform');
-            $table->integer('user_original_id');
+            $table->bigInteger('user_original_id')->unsigned();
         });
     }
 
