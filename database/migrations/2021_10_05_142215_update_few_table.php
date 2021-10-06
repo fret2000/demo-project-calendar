@@ -15,19 +15,20 @@ class UpdateFewTable extends Migration
     {
         Schema::table("calendars", function(Blueprint $table)
         {
-            $table->foreing('user_id')->references('user_id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
-
+/*
         Schema::table("rooms", function(Blueprint $table)
         {
             $table->foreign('event_id')->references('event_id')->on('events')->onDelete('cascade');
         });
+        
 
         Schema::table("events", function(Blueprint $table)
         {
             $table->foreign('calendar_id')->references('calendar_id')->on('calendars')->onDelete('cascade');
             $table->foreign('creator_id')->references('user_id')->on('users')->onDelete('cascade');
-        });
+        });*/
     }
 
     /**
