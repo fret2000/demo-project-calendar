@@ -9,3 +9,6 @@ Route::get('/', function () {
 // return view('travel_list', ['visited' => $visited, 'togo' => $togo ] );
     return view('welcome');
 });
+
+Route::get('/calendar/', "Controller@calendar");
+Route::get('/calendar/{date}', "Controller@calendar");
