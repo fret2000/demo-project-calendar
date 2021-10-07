@@ -31,20 +31,20 @@
 <div class="container">
     <div class="row">
         <div class="input-group mt-5">
-            <a href="/" class="btn btn-primary active" aria-current="page">Календарь компании</a>
-            <a href="/worker" class="btn btn-primary">Календарь сотрудника</a>
+            <a href="/" class="btn btn-primary" aria-current="page">Календарь компании</a>
+            <a href="/worker" class="btn btn-primary active">Календарь сотрудника</a>
         </div>
         <div>
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-end">
                     <li class="page-item">
-                        <a class="page-link" href="/calendar/{{ date("Y-m-d", strtotime("-1 week", $currentDate)) }}"
+                        <a class="page-link" href="/worker/{{ date("Y-m-d", strtotime("-1 week", $currentDate)) }}"
                            aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="/calendar/{{ date("Y-m-d", $currentDate + 60*60*24*7) }}"
+                        <a class="page-link" href="/worker/{{ date("Y-m-d", $currentDate + 60*60*24*7) }}"
                            aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
@@ -53,6 +53,21 @@
             </nav>
         </div>
         <div class="col-lg-9">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Сотрудник
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href=""></a></li>
+                            <li><a class="dropdown-item" href=""></a></li>
+                            <li><a class="dropdown-item" href=""></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -63,16 +78,6 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row">Событие</th>
-                    <td><a href=""></a></td>
-                    <td><a href=""></a></td>
-                    <td><a href=""></a></td>
-                    <td><a href=""></a></td>
-                    <td><a href=""></a></td>
-                    <td><a href=""></a></td>
-                    <td><a href=""></a></td>
-                </tr>
                 <?php
                 $hours = array(
                     0 => "10:00",
@@ -113,7 +118,7 @@
                     35 => "18:45",
                     36 => "19:00"
                 );
-                $id = 1;
+                $idWorker = 1;
                 foreach ($hours as $hour){
                 ?>
                 <tr>
@@ -121,74 +126,62 @@
                     <?php
                     for ($td = 0; $td < 7; $td++){
                     ?>
-                    <td><a href="" id="<?= $id?>"></a></td>
-                    <? $id++;} ?>
+                    <td><a href="" id="<?= $idWorker?>"></a></td>
+                    <? $idWorker++;} ?>
                 </tr>
                 <?php  } ?>
                 </tbody>
             </table>
         </div>
         <div class="col-lg-3">
-            <form method="post" action="/create">
-                @csrf
+            <form>
                 <div class="row">
                     <div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label">Дата</label>
-                        <input type="date" class="form-control" id="exampleFormControlInput1" name="currentDate">
+                        <input type="date" class="form-control" id="exampleFormControlInput1">
                     </div>
 
                     <div class="mb-3">
                         <label for="exampleFormControlTextarea1" class="form-label">Повторить событие</label>
-                        <select class="form-select" aria-label="Default select example" name="retryEvent">
+                        <select class="form-select" aria-label="Default select example">
                             <option selected></option>
-                            <option value="not">Не повторять</option>
-                            <option value="everyday">Ежедневно</option>
-                            <option value="everyweek">Еженедельно</option>
-                            <option value="everymonth">Ежемесячно</option>
-                            <option value="weekdays">Будние дни</option>
-                            <option value="period">Период</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">Комната/событие</label>
-                        <select class="form-select" aria-label="Default select example" name="room">
-                            <option selected></option>
-                            <option value="room1">Переговорка 1</option>
-                            <option value="room2">Переговорка 2</option>
-                            <option value="room3">Переговорка 3</option>
-                            <option value="event">Событие</option>
+                            <option value="1">Не повторять</option>
+                            <option value="2">Ежедневно</option>
+                            <option value="3">Еженедельно</option>
+                            <option value="4">Ежемесячно</option>
+                            <option value="5">Будние дни</option>
+                            <option value="6">Период</option>
                         </select>
                     </div>
 
                     <div class="col-lg-6">
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Время старт</label>
-                            <input type="time" class="form-control" id="exampleFormControlInput1" name="time_start">
+                            <input type="time" class="form-control" id="exampleFormControlInput1">
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Дата старт</label>
-                            <input type="date" class="form-control" id="exampleFormControlInput1" name="date_start">
+                            <input type="date" class="form-control" id="exampleFormControlInput1">
                         </div>
                     </div>
 
                     <div class="col-lg-6">
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Время окончание</label>
-                            <input type="time" class="form-control" id="exampleFormControlInput1" name="time_finish">
+                            <input type="time" class="form-control" id="exampleFormControlInput1">
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Дата окончание</label>
-                            <input type="date" class="form-control" id="exampleFormControlInput1" name="date_finish">
+                            <input type="date" class="form-control" id="exampleFormControlInput1">
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="exampleFormControlTextarea1" class="form-label">Описание textarea</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="title"></textarea>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="button" class="btn btn-primary">Сохранить</button>
                 </div>
             </form>
         </div>
