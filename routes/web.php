@@ -2,13 +2,12 @@
 
 use Illuminate\Support\Facades\DB;
 
-Route::get('/', function () {
-// $visited = DB::select('select * from places where visited = ?', [1]); 
-// $togo = DB::select('select * from places where visited = ?', [0]);
+Route::get('/', "Event@calendar");
 
-// return view('travel_list', ['visited' => $visited, 'togo' => $togo ] );
-    return view('welcome');
-});
+Route::post('/create', "Event@create");
 
-Route::get('/calendar/', "Controller@calendar");
-Route::get('/calendar/{date}', "Controller@calendar");
+Route::get('/calendar/{date}', "Event@calendar");
+
+Route::get('/worker', "Controller@worker");
+
+Route::get('/worker/{date}', "Controller@worker");
