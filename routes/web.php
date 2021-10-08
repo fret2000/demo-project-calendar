@@ -6,7 +6,7 @@ Route::get('/', "Event@calendar");
 
 Route::post('/create', "Event@create");
 
-Route::get('/calendar/{date}', "Event@calendar");
+Route::get('/calendar/{id}/{date}', "Event@calendar");
 
 Route::get('/worker', "Controller@worker");
 
