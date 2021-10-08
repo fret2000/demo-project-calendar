@@ -1,4 +1,7 @@
-<!doctype html>
+<?php
+$idCalendar = 'company';
+?>
+    <!doctype html>
 <html lang="en">
 
 <head>
@@ -38,13 +41,15 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-end">
                     <li class="page-item">
-                        <a class="page-link" href="/calendar/{{ date("Y-m-d", strtotime("-1 week", $currentDate)) }}"
+                        <a class="page-link"
+                           href="/calendar/{{$idCalendar}}/{{ date("Y-m-d", strtotime("-1 week", $currentDate)) }}"
                            aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="/calendar/{{ date("Y-m-d", $currentDate + 60*60*24*7) }}"
+                        <a class="page-link"
+                           href="/calendar/{{$idCalendar}}/{{ date("Y-m-d", $currentDate + 60*60*24*7) }}"
                            aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
@@ -74,46 +79,6 @@
                     <td><a href=""></a></td>
                 </tr>
                 <?php
-                $hours = array(
-                    0 => "10:00",
-                    1 => "10:15",
-                    2 => "10:30",
-                    3 => "10:45",
-                    4 => "11:00",
-                    5 => "11:15",
-                    6 => "11:30",
-                    7 => "11:45",
-                    8 => "12:00",
-                    9 => "12:15",
-                    10 => "12:30",
-                    11 => "12:45",
-                    12 => "13:00",
-                    13 => "13:15",
-                    14 => "13:30",
-                    15 => "13:45",
-                    16 => "14:00",
-                    17 => "14:15",
-                    18 => "14:30",
-                    19 => "14:45",
-                    20 => "15:00",
-                    21 => "15:15",
-                    22 => "15:30",
-                    23 => "15:45",
-                    24 => "16:00",
-                    25 => "16:15",
-                    26 => "16:30",
-                    27 => "16:45",
-                    28 => "17:00",
-                    29 => "17:15",
-                    30 => "17:30",
-                    31 => "17:45",
-                    32 => "18:00",
-                    33 => "18:15",
-                    34 => "18:30",
-                    35 => "18:45",
-                    36 => "19:00"
-                );
-                $id = 1;
 
                 function getTimetable($hourStart = 8, $hourFinish = 17, $minuteStep = 30)
                 {
@@ -122,22 +87,19 @@
                     $minute = -$minuteStep;
                     $hour = $hourStart;
 
-                    while($hour < $hourFinish)
-                    {
+                    while ($hour < $hourFinish) {
                         $minute += (int)$minuteStep;
 
-                        if($minute >= 60)
-                        {
+                        if ($minute >= 60) {
                             $minute = 0;
                             $hour++;
                         }
 
-                        if($minute == 0)
-                        {
+                        if ($minute == 0) {
                             $minute = '00';
                         }
 
-                        $timetable []= ['hour' => $hour,
+                        $timetable [] = ['hour' => $hour,
                             'minute' => $minute
                         ];
                     }
@@ -148,12 +110,12 @@
                 foreach (getTimetable(10, 19, 15) as $hour){
                 ?>
                 <tr>
-                    <th scope="row"><?=$hour['hour'].":".$hour['minute']?></th>
+                    <th scope="row"><?=$hour['hour'] . ":" . $hour['minute']?></th>
                     <?php
                     for ($td = 0; $td < 7; $td++){
                     ?>
-                    <td><a href="" id="<?= $id?>"></a></td>
-                    <? $id++;} ?>
+                    <td><a href=""></a></td>
+                    <? } ?>
                 </tr>
                 <?php  } ?>
                 </tbody>
@@ -216,9 +178,10 @@
 
                     <div class="mb-3">
                         <label for="exampleFormControlTextarea1" class="form-label">Описание textarea</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="title"></textarea>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                  name="title"></textarea>
                     </div>
-
+                    <input type="hidden" name="idCalendar" value="<?= $idCalendar ?>">
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </div>
             </form>

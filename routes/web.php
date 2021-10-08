@@ -6,8 +6,8 @@ Route::get('/', "EventController@index");
 
 Route::post('/create', "EventController@create");
 
-Route::get('/calendar/{id}/{date}', "Event@calendar");
+Route::get('/calendar/{idCalendar}/{date}', "EventController@index");
 
-Route::get('/worker', "Controller@worker");
+Route::get('/worker', "EventController@indexWorker");
 
-Route::get('/worker/{date}', "Controller@worker");
+Route::get('/worker/{idCalendar}/{date}', "EventController@indexWorker");

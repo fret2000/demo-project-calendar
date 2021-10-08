@@ -21,7 +21,7 @@ class UpdateDbmodel extends Migration
             $table->dropColumn('creator_id');
             $table->dropColumn('room_id');
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-            
+
             $table->renameColumn('event_id', 'id');
             $table->renameColumn('event_title', 'title');
         });
