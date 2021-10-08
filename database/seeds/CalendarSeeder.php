@@ -16,9 +16,48 @@ class CalendarSeeder extends Seeder
     public function run()
     {
         DB::table('calendars')->insert([
-            'name' => Str::random(10),
-            'type' => array_rand($type,1),
-            'platform'=> array_rand($platform,1)
+            'name' => 'Персональный календарь Дмитрия',
+            'type' => 'personal',
+            'platform'=> 'yandex'
+        ]);
+
+
+        DB::table('calendars')->insert([
+            'name' => 'Персональный календарь Алексея',
+            'type' => 'personal',
+            'platform'=> 'yandex'
+        ]);
+
+
+
+        DB::table('calendars')->insert([
+            'name' => 'Персональный календарь Александра',
+            'type' => 'personal',
+            'platform'=> 'yandex'
+        ]);
+
+
+
+
+        DB::table('calendars')->insert([
+            'name' => 'День рождения',
+            'type' => 'room',
+            'platform'=> 'yandex'
+        ]);
+
+
+
+
+        DB::table('calendars')->insert([
+            'name' => 'Обучение персонала',
+            'type' => 'room',
+            'platform'=> 'yandex'
+        ]);
+
+        DB::table('calendars')->insert([
+            'name' => 'День города',
+            'type' => 'room',
+            'platform'=> 'yandex'
         ]);
     }
 }
