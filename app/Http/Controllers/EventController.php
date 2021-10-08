@@ -34,6 +34,7 @@ class EventController extends Controller
      */
     public function create(Request $request)
     {
+        dd($request->all());
         $request = Arr::only($request->all(),['date_start','date_finish','title']);
         Event::create($request);
     }
@@ -57,7 +58,11 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('worker.blade.php', [
+            'Event' => Event::findOrFail($id)
+        ]);
+        //$event = Event::where('id',$id)->first();
+        //$event->show();
     }
 
     /**
@@ -80,9 +85,9 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $event = new Event();
-        $event->name = 'sdgfdsgf';
-        $event->save();
+        $request = Arr::only($request->all(),['date_start','date_finish','title']);
+        $event = Event::where('id',$id)->first();
+        $event->update($request);
     }
 
     /**
@@ -93,6 +98,7 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $event = Event::where('id',$id)->first();
+        $event->delete($id);
     }
 }
