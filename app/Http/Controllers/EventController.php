@@ -13,9 +13,18 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($date = null)
     {
-        //
+            if ($date == null) {
+                $date = date("Y-m-d");
+            }
+    
+            $currentDate = strtotime($date);
+    
+            return view('calendar', collect([
+                'date'=> $date,
+                'currentDate' => $currentDate
+            ]));
     }
 
     /**
@@ -25,7 +34,7 @@ class EventController extends Controller
      */
     public function create(Request $request)
     {
-        $request = Arr::only($request,['date_start','date_finish','title','id','calendar_id','is_accepted','is_blocking']);
+        $request = Arr::only($request->all(),['date_start','date_finish','title']);
         Event::create($request);
     }
 

@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 
-Route::get('/', "Event@calendar");
+Route::get('/', "EventController@index");
 
-Route::post('/create', "Event@create");
+Route::post('/create', "EventController@create");
 
 Route::get('/calendar/{date}', "Event@calendar");
 

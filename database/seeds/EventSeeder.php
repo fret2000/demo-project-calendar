@@ -17,9 +17,18 @@ class EventSeeder extends Seeder
     public function run()
     {
         DB::table('events')->insert([
-            'name' => Str::random(10),
-            'date-start' => Carbon::now(),
-            'date-finish'=> Carbon::now()->addMinute(random_int(0,7200)),
+            'name' => 'Дмитрий Ильин',
+            'date-start' => '2021-10-08 10:00:00',
+            'date-finish'=> '2021-10-08 10:15:00',
+            'is_accept' => rand(0,1),
+            'is_blocking' => rand(0,1)  
+        ]);
+
+
+        DB::table('events')->insert([
+            'name' => 'Илья Дмитров',
+            'date-start' => '2021-10-08 12:00:00',
+            'date-finish'=> '2021-10-08 14:15:00',
             'is_accept' => rand(0,1),
             'is_blocking' => rand(0,1)  
         ]);
