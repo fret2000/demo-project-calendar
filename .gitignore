@@ -4,11 +4,12 @@
 /storage/*.key
 /vendor
 .env
+.env.backup
 .phpunit.result.cache
-.idea
-.bash_history
+docker-compose.override.yml
 Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-/mysql
+/.idea
+/.vscode
