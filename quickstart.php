@@ -18,7 +18,7 @@ AIzaSyDk6_GC3xvOSmkA6GqlDhVGSAshK-NPbSs
 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
 
 client_secret_484604532660-5uod4h9h4hvokem69dp8visdvnanijsi.apps.googleusercontent.com.json
-client_secret_484604532660-fks64tkcfiaj75jns1le5qndust3abbp.apps.googleusercontent.com.json
+credentials.json
 */
 
 function getClient()
@@ -26,7 +26,7 @@ function getClient()
     $client = new Google_Client();
     $client->setApplicationName('Google Calendar API PHP Quickstart');
     $client->setScopes(Google_Service_Calendar::CALENDAR);
-    $client->setAuthConfig('client_secret_484604532660-fks64tkcfiaj75jns1le5qndust3abbp.apps.googleusercontent.com.json');
+    $client->setAuthConfig('credentials.json');
     //$client->setAuthConfig('credentials.json');
     $client->setAccessType('offline');
     $client->setPrompt('select_account consent');
