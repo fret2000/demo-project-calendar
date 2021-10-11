@@ -4,12 +4,13 @@
 /storage/*.key
 /vendor
 .env
-.env.backup
 .phpunit.result.cache
-docker-compose.override.yml
+.idea
+.bash_history
 Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-/.idea
-/.vscode
+/mysql
+client_secret_484604532660-fks64tkcfiaj75jns1le5qndust3abbp.apps.googleusercontent.com.json
+token.json
