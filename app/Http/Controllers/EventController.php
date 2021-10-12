@@ -31,6 +31,7 @@ class EventController extends Controller
 
     public function indexWorker($idCalendar, $date = null)
     {
+        
         if ($date == null) {
             $date = date("Y-m-d");
         }
@@ -43,6 +44,12 @@ class EventController extends Controller
             'currentDate' => $currentDate
         ]));
 
+    }
+
+    public function select() {
+        $id = request()->get('calendar', 0);
+        
+        return redirect('/worker/' . $id . '/');
     }
 
     /**

@@ -1,7 +1,4 @@
-<?php
-$idCalendar = 'worker';
-?>
-    <!doctype html>
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -65,13 +62,17 @@ $idCalendar = 'worker';
                            data-bs-toggle="dropdown" aria-expanded="false">
                             Сотрудник
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href=""></a></li>
-                            <li><a class="dropdown-item" href=""></a></li>
-                            <li><a class="dropdown-item" href=""></a></li>
-                        </ul>
+                        
                     </li>
                 </ul>
+                <form action="/worker/select" method="POST">
+                <select name="calendar">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                        </select>
+                        <input type="submit">
+                        @csrf
+                        </form>
             </nav>
             @include('calendar.calendar-ui')
         </div>
