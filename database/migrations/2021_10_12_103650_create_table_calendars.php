@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Users extends Migration
+class CreateTableCalendars extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class Users extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('user_id')->unsigned()->nullable(false);
-            $table->string('platform');
-            $table->bigInteger('user_original_id')->unsigned();
+        Schema::create('calendars', function (Blueprint $table) {
+            $table->id();
             $table->string('name');
+            $table->string('type');
             $table->string('platform');
+            $table->bigInteger('user_id')->unsigned();
+            $table->timestamps();
+
         });
     }
 
@@ -29,6 +31,6 @@ class Users extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('calendars');
     }
 }

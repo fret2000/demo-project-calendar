@@ -9,7 +9,7 @@ class Calendar extends Model
 {
     use HasFactory;
     public $timestamps = false;
-
+    protected $fillable = ['id','user_id','name','type','platform'];
     const TYPES = [
         1 => 'personal',
         2 => 'room',
