@@ -5,6 +5,7 @@ namespace App\Clients;
 use Google\Service\Calendar\Event;
 use Google_Client;
 use Google_Service_Calendar;
+use Google_Service_Calendar_Event;
 
 class GoogleCalendar
 {
@@ -120,8 +121,23 @@ class GoogleCalendar
         return $simpleEvents;
     }
 
-    public function createEvent($calendarId = 'primary', $name, $options = [])
+    public function createEvent($calendarId = 'primary', $name, $dateTime = ["start" => '2015-05-28T09:00:00-07:00', "finish" => '2015-05-28T17:00:00-07:00'], $options = [])
     {
+        $defaultDescription = 'Event created from ImageSpark-Intranet';
 
+        $event = new Google_Service_Calendar_Event(array(
+            'summary' => $name,
+            'description' => $defaultDescription,
+            'start' => array(
+                'dateTime' => $dateTime["start"],
+            ),
+            'end' => array(
+                'dateTime' => $dateTime["finish"]
+            )
+        ));
+
+        $service = new Google_Service_Calendar($this->getClient());
+        $event = $service->events->insert($calendarId, $event);
+        //printf('Event created: %s\n', $event->htmlLink);
     }
 }
