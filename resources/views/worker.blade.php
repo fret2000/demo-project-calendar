@@ -1,7 +1,4 @@
-<?php
-$idCalendar = 'worker';
-?>
-    <!doctype html>
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -35,7 +32,7 @@ $idCalendar = 'worker';
     <div class="row">
         <div class="input-group mt-5">
             <a href="/" class="btn btn-primary" aria-current="page">Календарь компании</a>
-            <a href="/worker/{{$idCalendar}}" class="btn btn-primary active">Календарь сотрудника</a>
+            <a href="/worker" class="btn btn-primary active">Календарь сотрудника</a>
         </div>
         <div>
             <nav aria-label="Page navigation example">
@@ -59,71 +56,23 @@ $idCalendar = 'worker';
         </div>
         <div class="col-lg-9">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            Сотрудник
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href=""></a></li>
-                            <li><a class="dropdown-item" href=""></a></li>
-                            <li><a class="dropdown-item" href=""></a></li>
-                        </ul>
-                    </li>
-                </ul>
+                <form method="POST" action="/worker/select">
+                    @csrf
+                    <div class="row">
+                        <div class="col-sm">
+                            <select name="calendar" class="form-control">
+                                <option value="null">Сотрудник</option>
+                                <option value="1">Иван Иванов</option>
+                                <option value="2">Александр Петро</option>
+                                <option value="3">Данила Козловский</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <button type="submit" name="submit" class="btn btn-primary">Перейти</button>
+                </form>
             </nav>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th scope="col"></th>
-                    @for ($i = 0; $i<=6; $i++)
-                        <th scope="col">{{ date("d.m.Y", $currentDate + $i*60*60*24) }}</th>
-                    @endfor
-                </tr>
-                </thead>
-                <tbody>
-                <?php
-                function getTimetable($hourStart = 8, $hourFinish = 17, $minuteStep = 30)
-                {
-                    $timetable = array();
-
-                    $minute = -$minuteStep;
-                    $hour = $hourStart;
-
-                    while ($hour < $hourFinish) {
-                        $minute += (int)$minuteStep;
-
-                        if ($minute >= 60) {
-                            $minute = 0;
-                            $hour++;
-                        }
-
-                        if ($minute == 0) {
-                            $minute = '00';
-                        }
-
-                        $timetable [] = ['hour' => $hour,
-                            'minute' => $minute
-                        ];
-                    }
-
-                    return $timetable;
-                }
-
-                foreach (getTimetable(10, 19, 15) as $hour){
-                ?>
-                <tr>
-                    <th scope="row"><?=$hour['hour'] . ":" . $hour['minute']?></th>
-                    <?php
-                    for ($td = 0; $td < 7; $td++){
-                    ?>
-                    <td><a href=""></a></td>
-                    <? } ?>
-                </tr>
-                <?php  } ?>
-                </tbody>
-            </table>
+            @include('calendar.calendar-ui')
         </div>
         <div class="col-lg-3">
             <form method="post" action="/create">
@@ -174,7 +123,7 @@ $idCalendar = 'worker';
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
                                   name="title"></textarea>
                     </div>
-                    <input type="hidden" name="idCalendar" value="<?= $idCalendar ?>">
+                    <input type="hidden" name="idCalendarUser" value="{{$idCalendar}}">
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </div>
             </form>

@@ -7,10 +7,10 @@ services:
   app:
     build:
       context: ./docker-compose/php-fpm
-      args: *app-args    
+      args: *app-args
     volumes:
       - ~/.ssh:/home/${USER}/.ssh:rw
-      - ./:/var/www  
+      - ./:/var/www
     depends_on:
       - db
 
