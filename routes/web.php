@@ -2,13 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', "App\Http\Controllers\EventController@index");
+Route::get('/', "EventController@index");
 
-Route::post('/create', "App\Http\Controllers\EventController@create");
+Route::post('/create', "EventController@create");
 
-Route::get('/calendar/{idCalendar}/{date}', "App\Http\Controllers\EventController@index");
+Route::get('/calendar/{idCalendar}/{date}', "EventController@index");
 
-Route::get('/worker', "App\Http\Controllers\EventController@indexWorker");
+Route::get('/worker', "EventController@indexWorker");
 
 Route::post('/worker/select', "EventController@select");
 
