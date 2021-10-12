@@ -5,13 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Calendar extends Model
+class User extends Model
 {
     use HasFactory;
     public $timestamps = false;
-
-    const TYPES = [
-        1 => 'personal',
-        2 => 'room',
-    ];
+    protected $table = 'users';
 }

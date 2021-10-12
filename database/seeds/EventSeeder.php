@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Event;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -16,57 +17,57 @@ class EventSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('events')->insert([
-            'name' => 'Совещание',
-            'date-start' => '2021-10-08 10:00:00',
-            'date-finish'=> '2021-10-08 10:15:00',
-            'is_accept' => rand(0,1),
-            'is_blocking' => rand(0,1)  
+        Event::firstOrNew([
+            'event_title' => 'Совещание',
+            'date_start' => '2021-10-08 10:00:00',
+            'date_finish'=> '2021-10-08 10:15:00',
+            'is_accepted' => rand(0,1),
+            'is_blocking' => rand(0,1)
         ]);
 
 
-        DB::table('events')->insert([
-            'name' => 'Совещание 2',
-            'date-start' => '2021-10-08 12:00:00',
-            'date-finish'=> '2021-10-08 14:15:00',
-            'is_accept' => rand(0,1),
-            'is_blocking' => rand(0,1)  
+        Event::firstOrNew([
+            'event_title' => 'Совещание 2',
+            'date_start' => '2021-10-08 12:00:00',
+            'date_finish'=> '2021-10-08 14:15:00',
+            'is_accepted' => rand(0,1),
+            'is_blocking' => rand(0,1)
         ]);
 
-        DB::table('events')->insert([
-            'name' => 'Совещание 3',
-            'date-start' => '2021-10-07 12:00:00',
-            'date-finish'=> '2021-10-07 14:15:00',
-            'is_accept' => rand(0,1),
-            'is_blocking' => rand(0,1)  
+        Event::firstOrNew([
+            'event_title' => 'Совещание 3',
+            'date_start' => '2021-10-07 12:00:00',
+            'date_finish'=> '2021-10-07 14:15:00',
+            'is_accepted' => rand(0,1),
+            'is_blocking' => rand(0,1)
         ]);
 
-        DB::table('events')->insert([
-            'name' => 'Совещание 4',
-            'date-start' => '2021-10-07 12:00:00',
-            'date-finish'=> '2021-10-08 14:15:00',
-            'is_accept' => rand(0,1),
-            'is_blocking' => rand(0,1)  
-        ]);
-
-
-        DB::table('events')->insert([
-            'name' => 'Совещание 6',
-            'date-start' => '2021-10-07 12:00:00',
-            'date-finish'=> '2021-10-08 14:15:00',
-            'is_accept' => rand(0,1),
-            'is_blocking' => rand(0,1)  
+        Event::firstOrNew([
+            'event_title' => 'Совещание 4',
+            'date_start' => '2021-10-07 12:00:00',
+            'date_finish'=> '2021-10-08 14:15:00',
+            'is_accepted' => rand(0,1),
+            'is_blocking' => rand(0,1)
         ]);
 
 
-        DB::table('events')->insert([
-            'name' => 'Совещание 7',
-            'date-start' => '2021-10-09 12:00:00',
-            'date-finish'=> '2021-10-08 14:15:00',
-            'is_accept' => rand(0,1),
-            'is_blocking' => rand(0,1)  
+        Event::firstOrNew([
+            'event_title' => 'Совещание 6',
+            'date_start' => '2021-10-07 12:00:00',
+            'date_finish'=> '2021-10-08 14:15:00',
+            'is_accepted' => rand(0,1),
+            'is_blocking' => rand(0,1)
         ]);
-        
-        
+
+
+        Event::firstOrNew([
+            'event_title' => 'Совещание 7',
+            'date_start' => '2021-10-09 12:00:00',
+            'date_finish'=> '2021-10-08 14:15:00',
+            'is_accepted' => rand(0,1),
+            'is_blocking' => rand(0,1)
+        ]);
+
+
     }
 }

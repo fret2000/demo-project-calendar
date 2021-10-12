@@ -2,11 +2,26 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class UserSeeder extends Seeder
 {
+    protected $users = [
+        'Василий Зайцев',
+        'Тимур Родригез',
+        'Дмитрий Каперник',
+        'Семен Слепаков',
+        'Гарик Мартиросян',
+        'Алексей Щербаков',
+        'Imagespark'
+    ];
+    protected $platform = [
+        'yandex',
+        'google'
+    ];
+
     /**
      * Run the database seeds.
      *
@@ -14,32 +29,12 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'name' => 'Василий Зайцев'
-        ]);
-
-        DB::table('users')->insert([
-            'name' => 'Тимур Родригез'
-        ]);
-
-
-        DB::table('users')->insert([
-            'name' => 'Дмитрий Каперник'
-        ]);
-
-
-        DB::table('users')->insert([
-            'name' => 'Семен Слепаков'
-        ]);
-
-
-        DB::table('users')->insert([
-            'name' => 'Гарик Мартиросян'
-        ]);
-
-
-        DB::table('users')->insert([
-            'name' => 'Алексей Щербаков'
-        ]);
+        foreach ($this->users as $user) {
+            $user = User::firstOrCreate([
+                'name' => $user,
+                'platform' => 'google',
+                'user_original_id' => 1
+            ]);
+        }
     }
 }

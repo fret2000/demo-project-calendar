@@ -17,6 +17,8 @@ class Users extends Migration
             $table->bigIncrements('user_id')->unsigned()->nullable(false);
             $table->string('platform');
             $table->bigInteger('user_original_id')->unsigned();
+            $table->string('name');
+            $table->string('platform');
         });
     }
 

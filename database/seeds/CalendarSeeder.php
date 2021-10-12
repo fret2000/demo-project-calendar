@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Calendar;
+use App\Models\Event;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -15,49 +18,57 @@ class CalendarSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('calendars')->insert([
-            'name' => 'Персональный календарь Дмитрия',
+        Calendar::firstOrCreate([
+            'name' => 'Персональный календарь Василия Зайцева',
             'type' => 'personal',
-            'platform'=> 'yandex'
+            'platform' => 'google',
+            'user_id' => 1
         ]);
 
-
-        DB::table('calendars')->insert([
-            'name' => 'Персональный календарь Алексея',
+        Calendar::firstOrCreate([
+            'name' => 'Персональный календарь Тимура Родригеза',
             'type' => 'personal',
-            'platform'=> 'yandex'
+            'platform' => 'google',
+            'user_id' => 2
         ]);
 
 
-
-        DB::table('calendars')->insert([
-            'name' => 'Персональный календарь Александра',
+        Calendar::firstOrCreate([
+            'name' => 'Персональный календарь Дмитрия Каперника',
             'type' => 'personal',
-            'platform'=> 'yandex'
+            'platform' => 'google',
+            'user_id' => 3
+        ]);
+
+        Calendar::firstOrCreate([
+            'name' => 'Персональный календарь Семена Слепакова',
+            'type' => 'personal',
+            'platform' => 'google',
+            'user_id' => 4
+        ]);
+
+        Calendar::firstOrCreate([
+            'name' => 'Персональный календарь Гарика Мартиросяна',
+            'type' => 'personal',
+            'platform' => 'google',
+            'user_id' => 5
         ]);
 
 
+        Calendar::firstOrCreate([
+            'name' => 'Персональный календарь Алексея Щербакова',
+            'type' => 'personal',
+            'platform' => 'google',
+            'user_id' => 6
+        ]);
 
-
-        DB::table('calendars')->insert([
-            'name' => 'День рождения',
+        Calendar::firstOrCreate([
+            'name' => 'Календарь компании Imagespark',
             'type' => 'room',
-            'platform'=> 'yandex'
+            'platform' => 'google',
+            'user_id' => 7
         ]);
 
 
-
-
-        DB::table('calendars')->insert([
-            'name' => 'Обучение персонала',
-            'type' => 'room',
-            'platform'=> 'yandex'
-        ]);
-
-        DB::table('calendars')->insert([
-            'name' => 'День города',
-            'type' => 'room',
-            'platform'=> 'yandex'
-        ]);
     }
 }
