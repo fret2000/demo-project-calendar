@@ -31,7 +31,6 @@ class EventController extends Controller
 
     public function indexWorker($idCalendar, $date = null)
     {
-
         if ($date == null) {
             $date = date("Y-m-d");
         }

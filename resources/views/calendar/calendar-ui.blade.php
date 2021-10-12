@@ -11,7 +11,7 @@ $cellWidth = 110;
 
     .calendar__cell-h {
         height:{{ $cellHeight }}px;
-        width:{{ $cellWidth }}px;
+
     }
 
     .calendar__event {
@@ -46,6 +46,7 @@ $cellWidth = 110;
                 </tr>
                 <?php
 
+
                 function getTimetable($hourStart = 10, $hourFinish = 19, $minuteStep = 15)
                 {
                     $timetable = array();
@@ -73,12 +74,14 @@ $cellWidth = 110;
                     return $timetable;
                 }
 
+
                 foreach (getTimetable() as $hour){
                 ?>
                 <tr>
                     <th class="calendar__cell-h" scope="row"><?=$hour['hour'] . ":" . $hour['minute']?></th>
                     <?php
                     for ($td = 0; $td < 7; $td++){
+
                     $offsetTime = rand(10,19);
                     $cell = $cellHeight*rand(1,20 - $offsetTime);
                     ?>
