@@ -1,11 +1,5 @@
 <?php
 
-namespace App\Clients;
-
-use Google\Service\Calendar\Event;
-use Google_Client;
-use Google_Service_Calendar;
-
 class GoogleCalendar
 {
     protected const APPNAME = 'Google Calendar API PHP Quickstart';
@@ -15,14 +9,12 @@ class GoogleCalendar
 
     public function __construct()
     {
-        $this->client = getClient();
-        $service = new Google_Service_Calendar($this->client);
-
+        $this->client = $this->getClient();
     }
 
     public function getClient()
     {
-        if(!is_null($this->client))
+        if($this->client != null)
         {
             return $this->client;
         }
@@ -84,44 +76,45 @@ class GoogleCalendar
         return $client;
     }
 
-    public static function simplificateEvent($eventList)
+    public function getEventList($optParams = array(
+        'maxResults' => 10,
+        'orderBy' => 'startTime',
+        'singleEvents' => true,
+        'timeMin' => date('c')
+    ))
     {
-        $simpleEventList = array();
+        $service = new Google_Service_Calendar($this->client);
+        $calendarId = 'primary';
 
-        /** @var Event $event */
-        foreach ($eventList as $event)
-        {
-            $simpleEvent = array();
-
-            $simpleEvent ['title']= $event->getSummary();
-            $simpleEvent ['date_start']= $event->getStart()->getDateTime();
-            $simpleEvent ['date_finish']= $event->getEnd()->getDateTime();
-
-            $simpleEventList []= $simpleEvent;
-        }
-
-        return $simpleEventList;
-    }
-
-    public function fetchEvents($calendarId = 'primary', $from = '2000-01-01T00:00:00-00:00'): array
-    {
-        $optParams = array(
-            //'maxResults' => 10,
-            //'orderBy' => 'startTime',
-            'singleEvents' => true,
-            'timeMin' => date('c', $from)
-        );
-
-        $service = new Google_Service_Calendar($this->getClient());
         $results = $service->events->listEvents($calendarId, $optParams);
         $events = $results->getItems();
 
-        $simpleEvents = static::simplificateEvent($events);
-        return $simpleEvents;
+        return $events;
     }
 
-    public function createEvent($calendarId = 'primary', $name, $options = [])
+    public static function printEvents($events)
     {
+        if(is_array($events))
+        {
+            print "Events isn't array.\n";
+            return;
+        }
 
+        if(empty($events))
+        {
+            print "No upcoming events found.\n";
+            return;
+        }
+
+        print "Upcoming events:\n";
+        foreach($events as $event)
+        {
+            $start = $event->start->dateTime;
+            if(empty($start))
+            {
+                $start = $event->start->date;
+            }
+            printf("%s (%s)\n", $event->getSummary(), $start);
+        }
     }
 }
