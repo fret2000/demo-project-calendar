@@ -62,7 +62,7 @@
                            data-bs-toggle="dropdown" aria-expanded="false">
                             Сотрудник
                         </a>
-                        
+
                     </li>
                 </ul>
                 <form action="/worker/select" method="POST">
@@ -89,7 +89,7 @@
                         <label for="exampleFormControlTextarea1" class="form-label">Повторить событие</label>
                         <select class="form-select" aria-label="Default select example" name="retryEvent">
                             <option selected></option>
-                            <option value="not">Не повторять</option>
+                            <option value="not">Не повторять!</option>
                             <option value="everyday">Ежедневно</option>
                             <option value="everyweek">Еженедельно</option>
                             <option value="everymonth">Ежемесячно</option>
