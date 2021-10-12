@@ -32,7 +32,7 @@
     <div class="row">
         <div class="input-group mt-5">
             <a href="/" class="btn btn-primary" aria-current="page">Календарь компании</a>
-            <a href="/worker/{{$idCalendar}}" class="btn btn-primary active">Календарь сотрудника</a>
+            <a href="/worker" class="btn btn-primary active">Календарь сотрудника</a>
         </div>
         <div>
             <nav aria-label="Page navigation example">
@@ -56,23 +56,21 @@
         </div>
         <div class="col-lg-9">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            Сотрудник
-                        </a>
-                        
-                    </li>
-                </ul>
-                <form action="/worker/select" method="POST">
-                <select name="calendar">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                        </select>
-                        <input type="submit">
-                        @csrf
-                        </form>
+                <form method="POST" action="/worker/select">
+                    @csrf
+                    <div class="row">
+                        <div class="col-sm">
+                            <select name="calendar" class="form-control">
+                                <option value="null">Сотрудник</option>
+                                <option value="1">Иван Иванов</option>
+                                <option value="2">Александр Петро</option>
+                                <option value="3">Данила Козловский</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <button type="submit" name="submit" class="btn btn-primary">Перейти</button>
+                </form>
             </nav>
             @include('calendar.calendar-ui')
         </div>
@@ -125,7 +123,7 @@
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
                                   name="title"></textarea>
                     </div>
-                    <input type="hidden" name="idCalendar" value="<?= $idCalendar ?>">
+                    <input type="hidden" name="idCalendarUser" value="{{$idCalendar}}">
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </div>
             </form>

@@ -10,6 +10,6 @@ Route::get('/calendar/{idCalendar}/{date}', "App\Http\Controllers\EventControlle
 
 Route::get('/worker', "App\Http\Controllers\EventController@indexWorker");
 
-Route::post('/worker/select', "App\Http\Controllers\EventController@select");
+Route::post('/worker/select', "EventController@select");
 
-Route::get('/worker/{idCalendar}/{date?}', "App\Http\Controllers\EventController@indexWorker");
+Route::get('/worker/{idCalendar}/{date?}', "EventController@indexWorker");

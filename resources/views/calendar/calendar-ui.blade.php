@@ -1,6 +1,7 @@
 <?php
 
 $cellHeight = 50;
+$cellWidth = 110;
 
 ?>
 <style>
@@ -10,6 +11,7 @@ $cellHeight = 50;
 
     .calendar__cell-h {
         height:{{ $cellHeight }}px;
+
     }
 
     .calendar__event {
@@ -18,7 +20,7 @@ $cellHeight = 50;
         background-color: #ccc;
     }
     .calendar__event>div {
-        padding:6px; 
+        padding:6px;
     }
 </style>
 
@@ -44,7 +46,8 @@ $cellHeight = 50;
                 </tr>
                 <?php
 
-                function getTimetable($hourStart = 8, $hourFinish = 17, $minuteStep = 30)
+
+                function getTimetable($hourStart = 10, $hourFinish = 19, $minuteStep = 15)
                 {
                     $timetable = array();
 
@@ -71,22 +74,25 @@ $cellHeight = 50;
                     return $timetable;
                 }
 
-                foreach (getTimetable(10, 19, 15) as $hour){
+
+                foreach (getTimetable() as $hour){
                 ?>
                 <tr>
                     <th class="calendar__cell-h" scope="row"><?=$hour['hour'] . ":" . $hour['minute']?></th>
                     <?php
                     for ($td = 0; $td < 7; $td++){
+
+                    $offsetTime = rand(10,19);
+                    $cell = $cellHeight*rand(1,20 - $offsetTime);
                     ?>
 
                     <td class="calendar__cell">
-                        <a href=""></a>
-                        
-                        @if ($hour['hour'] == '10' && $hour['minute'] == 0) 
+
+                        @if ($hour['hour'] == $offsetTime && $hour['minute'] == 0)
                         <?php
-                        $topPosition = round(3/15*$cellHeight);
+                        $topPosition = round(0/15*$cellHeight);
                         ?>
-                            <div class="calendar__event" style="top:{{ $topPosition }}px;left:5px; height: 200px;">
+                            <div class="calendar__event" style="top:{{ $topPosition }}px; left:5px; height: {{$cell}}px; width: {{$cellWidth}}px">
                                 <div>
                                     Событие
                                 </div>

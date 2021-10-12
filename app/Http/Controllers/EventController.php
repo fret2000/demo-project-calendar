@@ -31,7 +31,6 @@ class EventController extends Controller
 
     public function indexWorker($idCalendar, $date = null)
     {
-        
         if ($date == null) {
             $date = date("Y-m-d");
         }
@@ -48,7 +47,7 @@ class EventController extends Controller
 
     public function select() {
         $id = request()->get('calendar', 0);
-        
+
         return redirect('/worker/' . $id . '/');
     }
 
@@ -59,19 +58,10 @@ class EventController extends Controller
      */
     public function create(Request $request)
     {
-        $requests = $request->all();
-        if ($request['room'] == 'event'){
-            $requests['is_blocking'] = 0;
-        }
-        else {
-            $requests['is_blocking'] = 1;
-        }
-        $requests['is_accepted'] = 0;
-        $datestart = $request['date_start'];
-        $timestart = $request['time_start'];
-        $date_start = $datestart . $timestart;
-        $requests = Arr::only($requests->all(), ['date_start', 'date_finish', 'title','is_blocking','is_accepted']);
-       // Event::create($requests);
+        dd($request->all());
+        $request = Arr::only($request->all(), ['date_start', 'date_finish', 'title']);
+
+        Event::create($request);
     }
 
     /**
@@ -93,7 +83,7 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        return view('worker.blade.php', [
+        return view('worker', [
             'Event' => Event::findOrFail($id)
         ]);
         //$event = Event::where('id',$id)->first();
@@ -120,8 +110,8 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request = Arr::only($request->all(),['date_start','date_finish','title']);
-        $event = Event::where('id',$id)->first();
+        $request = Arr::only($request->all(), ['date_start', 'date_finish', 'title']);
+        $event = Event::where('id', $id)->first();
         $event->update($request);
     }
 
@@ -133,7 +123,7 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        $event = Event::where('id',$id)->first();
+        $event = Event::where('id', $id)->first();
         $event->delete($id);
     }
 }
