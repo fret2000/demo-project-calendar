@@ -73,57 +73,7 @@ $idCalendar = 'worker';
                     </li>
                 </ul>
             </nav>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th scope="col"></th>
-                    @for ($i = 0; $i<=6; $i++)
-                        <th scope="col">{{ date("d.m.Y", $currentDate + $i*60*60*24) }}</th>
-                    @endfor
-                </tr>
-                </thead>
-                <tbody>
-                <?php
-                function getTimetable($hourStart = 8, $hourFinish = 17, $minuteStep = 30)
-                {
-                    $timetable = array();
-
-                    $minute = -$minuteStep;
-                    $hour = $hourStart;
-
-                    while ($hour < $hourFinish) {
-                        $minute += (int)$minuteStep;
-
-                        if ($minute >= 60) {
-                            $minute = 0;
-                            $hour++;
-                        }
-
-                        if ($minute == 0) {
-                            $minute = '00';
-                        }
-
-                        $timetable [] = ['hour' => $hour,
-                            'minute' => $minute
-                        ];
-                    }
-
-                    return $timetable;
-                }
-
-                foreach (getTimetable(10, 19, 15) as $hour){
-                ?>
-                <tr>
-                    <th scope="row"><?=$hour['hour'] . ":" . $hour['minute']?></th>
-                    <?php
-                    for ($td = 0; $td < 7; $td++){
-                    ?>
-                    <td><a href=""></a></td>
-                    <? } ?>
-                </tr>
-                <?php  } ?>
-                </tbody>
-            </table>
+            @include('calendar.calendar-ui')
         </div>
         <div class="col-lg-3">
             <form method="post" action="/create">
