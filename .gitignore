@@ -12,5 +12,5 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 /mysql
-client_secret_484604532660-fks64tkcfiaj75jns1le5qndust3abbp.apps.googleusercontent.com.json
+credentials.json
 token.json
