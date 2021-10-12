@@ -52,9 +52,19 @@ class EventController extends Controller
      */
     public function create(Request $request)
     {
-        $request = Arr::only($request->all(), ['date_start', 'date_finish', 'title']);
-
-        Event::create($request);
+        $requests = $request->all();
+        if ($request['room'] == 'event'){
+            $requests['is_blocking'] = 0;
+        }
+        else {
+            $requests['is_blocking'] = 1;
+        }
+        $requests['is_accepted'] = 0;
+        $datestart = $request['date_start'];
+        $timestart = $request['time_start'];
+        $date_start = $datestart . $timestart;
+        $requests = Arr::only($requests->all(), ['date_start', 'date_finish', 'title','is_blocking','is_accepted']);
+       // Event::create($requests);
     }
 
     /**

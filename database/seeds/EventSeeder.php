@@ -24,7 +24,7 @@ class EventSeeder extends Seeder
             'is_accepted' => rand(0,1),
             'is_blocking' => rand(0,1),
             'calendar_id' => 1,
-        ])s;
+        ]);
 
 
         Event::create([
