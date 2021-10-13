@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Calendar;
 use App\Models\Event;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
@@ -29,8 +31,9 @@ class EventController extends Controller
 
     }
 
-    public function indexWorker($idCalendar, $date = null)
+    public function indexWorker($idCalendar = 1, $date = null)
     {
+        $workers = User::findOrFail($idCalendar)->all();
         if ($date == null) {
             $date = date("Y-m-d");
         }
@@ -38,6 +41,7 @@ class EventController extends Controller
         $currentDate = strtotime($date);
 
         return view('worker', collect([
+            'workers' => $workers,
             'idCalendar' => $idCalendar,
             'date' => $date,
             'currentDate' => $currentDate
@@ -46,9 +50,11 @@ class EventController extends Controller
     }
 
     public function select() {
-        $id = request()->get('calendar', 0);
+        $idCalendar = request()->get('calendar', 0);
+//        '/worker/' . $id . '/'
+        $arrayEventsOrWorker = $this->show($idCalendar);
 
-        return redirect('/worker/' . $id . '/');
+        return redirect()->route('worker_id',[$idCalendar]);
     }
 
     /**
@@ -83,9 +89,18 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        return view('worker', [
-            'Event' => Event::findOrFail($id)
-        ]);
+        $calendar = Calendar::findOrFail($id)->all();
+        $event = Event::findOrFail($id)->all();
+        $worker = User::findOrFail($id)->all();
+        $CalendarEventWorker = array (
+            'calendar' => $calendar,
+            'event' => $event,
+            'worker' => $worker
+        );
+        return $CalendarEventWorker;
+//        return view('worker', [
+//            'Event' => Event::findOrFail($id)->all()
+//        ]);
         //$event = Event::where('id',$id)->first();
         //$event->show();
     }
