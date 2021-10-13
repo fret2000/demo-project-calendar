@@ -23,7 +23,7 @@ class CalendarSeeder extends Seeder
             'type' => 'personal',
             'platform' => 'google',
             'user_id' => 1,
-            'platform_calendar_id'=>1
+            'platform_calendar_id'=>'imagespark.intranet@gmail.com'
         ]);
 
         Calendar::firstOrCreate([
@@ -31,7 +31,7 @@ class CalendarSeeder extends Seeder
             'type' => 'personal',
             'platform' => 'google',
             'user_id' => 2,
-            'platform_calendar_id'=>1
+            'platform_calendar_id'=>'imagespark.intranet@gmail.com'
         ]);
 
 
@@ -40,7 +40,7 @@ class CalendarSeeder extends Seeder
             'type' => 'personal',
             'platform' => 'google',
             'user_id' => 3,
-            'platform_calendar_id'=>1
+            'platform_calendar_id'=>'dvatishka@gmail.com'
         ]);
 
         Calendar::firstOrCreate([
@@ -48,7 +48,7 @@ class CalendarSeeder extends Seeder
             'type' => 'personal',
             'platform' => 'google',
             'user_id' => 4,
-            'platform_calendar_id'=>1
+            'platform_calendar_id'=>'imagespark.intranet@gmail.com'
         ]);
 
         Calendar::firstOrCreate([
@@ -56,7 +56,7 @@ class CalendarSeeder extends Seeder
             'type' => 'personal',
             'platform' => 'google',
             'user_id' => 5,
-            'platform_calendar_id'=>1
+            'platform_calendar_id'=>'deagleeeee01@gmail.com'
         ]);
 
 
@@ -65,7 +65,7 @@ class CalendarSeeder extends Seeder
             'type' => 'personal',
             'platform' => 'google',
             'user_id' => 6,
-            'platform_calendar_id'=>1
+            'platform_calendar_id'=>'imagespark.intranet@gmail.com'
         ]);
 
         Calendar::firstOrCreate([
@@ -73,7 +73,7 @@ class CalendarSeeder extends Seeder
             'type' => 'room',
             'platform' => 'google',
             'user_id' => 7,
-            'platform_calendar_id'=>1
+            'platform_calendar_id'=>'imagespark.intranet@gmail.com'
         ]);
 
 

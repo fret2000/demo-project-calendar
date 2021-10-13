@@ -33,7 +33,7 @@ class EventSeeder extends Seeder
             'date_finish'=> '2021-10-08 14:15:00',
             'is_accepted' => rand(0,1),
             'is_blocking' => rand(0,1),
-            'calendar_id' => 1,
+            'calendar_id' => 2,
 
         ]);
 
@@ -43,7 +43,7 @@ class EventSeeder extends Seeder
             'date_finish'=> '2021-10-07 14:15:00',
             'is_accepted' => rand(0,1),
             'is_blocking' => rand(0,1),
-            'calendar_id' => 1,
+            'calendar_id' => 3,
         ]);
 
         Event::create([
@@ -52,7 +52,7 @@ class EventSeeder extends Seeder
             'date_finish'=> '2021-10-08 14:15:00',
             'is_accepted' => rand(0,1),
             'is_blocking' => rand(0,1),
-            'calendar_id' => 1,
+            'calendar_id' => 3,
         ]);
 
 
@@ -62,7 +62,7 @@ class EventSeeder extends Seeder
             'date_finish'=> '2021-10-08 14:15:00',
             'is_accepted' => rand(0,1),
             'is_blocking' => rand(0,1),
-            'calendar_id' => 1,
+            'calendar_id' => 2,
         ]);
 
 

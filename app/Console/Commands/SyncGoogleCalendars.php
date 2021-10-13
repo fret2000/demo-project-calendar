@@ -3,11 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Clients\GoogleCalendar;
-use App\Http\Controllers\EventController;
 use App\Models\Calendar;
 use App\Models\Event;
 use Illuminate\Console\Command;
-use Illuminate\Http\Request;
 
 class SyncGoogleCalendars extends Command
 {
@@ -46,12 +44,12 @@ class SyncGoogleCalendars extends Command
         $gCalendar = new GoogleCalendar();
         foreach(Calendar::all() as $calendar)
         {
-            print "\nCalendar: \n";
-            print "id: ".$calendar->id."\n";
-            print "Name: ".$calendar->name."\n";
-            print "Type: ".$calendar->type."\n";
-            print "Platform: ".$calendar->platform."\n";
-            //print "Plat_Cal_id: ".$calendar->platform_calendar_id."\n";
+//            print "\nCalendar: \n";
+//            print "id: ".$calendar->id."\n";
+//            print "Name: ".$calendar->name."\n";
+//            print "Type: ".$calendar->type."\n";
+//            print "Platform: ".$calendar->platform."\n";
+//            print "Plat_Cal_id: ".$calendar->platform_calendar_id."\n";
 //            foreach($calendar as $key => $value)
 //            {
 //                print "$key : $value \n";
@@ -63,17 +61,27 @@ class SyncGoogleCalendars extends Command
                 continue;
             }
 
-            //$events = $gCalendar->fetchEvents($calendar->platform_calendar_id);
-            $events = $gCalendar->fetchEvents();
+            /*
+            В этом месте упадет как на страшную бабушку,
+            если передать несуществующий platform_calendar_id
+            */
+            $events = $gCalendar->fetchEvents($calendar->platform_calendar_id);
+
+
+            //$events = array();
+            //$events = $gCalendar->fetchEvents('dvatishka@gmail.com');
+            //$events = $gCalendar->fetchEvents('deagleeeee01@gmail.com');
+
             foreach($events as $event)
             {
                 $event['calendar_id'] = $calendar->id;
-                print "\nEvent: \n";
-                foreach($event as $key => $value)
-                {
-                    print "$key : $value \n";
-                }
-                //Event::create($event);
+
+//                print "\nEvent: \n";
+//                foreach($event as $key => $value)
+//                {
+//                    print "$key : $value \n";
+//                }
+                Event::create($event);
             }
         }
 
