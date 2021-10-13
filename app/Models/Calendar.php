@@ -8,13 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Calendar extends Model
 {
     use HasFactory;
+
     public $timestamps = false;
-    protected $fillable = ['id','name','type','platform','user_id','platform_calendar_id'];
+    protected $fillable = [
+        'id',
+        'user_id',
+        'name',
+        'type',
+        'platform'
+    ];
     const TYPES = [
         1 => 'personal',
         2 => 'room',
     ];
-
 
     public function user()
     {
