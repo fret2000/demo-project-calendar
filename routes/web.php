@@ -12,4 +12,4 @@ Route::get('/worker', "EventController@indexWorker");
 
 Route::post('/worker/select', "EventController@select");
 
-Route::get('/worker/{idCalendar}/{date?}', "EventController@indexWorker");
+Route::get('/worker/{idCalendar}/{date?}', "EventController@indexWorker")->name('worker_id');

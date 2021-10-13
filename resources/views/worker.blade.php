@@ -28,6 +28,7 @@
 </head>
 
 <body>
+
 <div class="container">
     <div class="row">
         <div class="input-group mt-5">
@@ -61,10 +62,12 @@
                     <div class="row">
                         <div class="col-sm">
                             <select name="calendar" class="form-control">
-                                <option value="null">Сотрудник</option>
-                                <option value="1">Иван Иванов</option>
-                                <option value="2">Александр Петро</option>
-                                <option value="3">Данила Козловский</option>
+{{--                                <option value="null">Сотрудник</option>--}}
+                                @foreach($workers as $worker)
+                                <option value="{{$worker['id']}}" {{$worker['id'] == $idCalendar ? 'selected' : ''}}>{{$worker['name']}}</option>
+                                @endforeach
+{{--                                <option value="2">Александр Петро</option>--}}
+{{--                                <option value="3">Данила Козловский</option>--}}
                             </select>
                         </div>
                     </div>
