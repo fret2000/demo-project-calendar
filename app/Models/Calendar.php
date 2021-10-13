@@ -15,13 +15,12 @@ class Calendar extends Model
         2 => 'room',
     ];
 
-
     public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function event()
+    public function events()
     {
         return $this->hasMany(Event::class);
     }

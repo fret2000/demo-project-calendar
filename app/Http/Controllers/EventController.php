@@ -33,18 +33,26 @@ class EventController extends Controller
 
     }
 
-    public function indexWorker($idCalendar = 1, $date = null)
+    public function indexWorker($id, $date = null)
     {
-        $workers = User::findOrFail($idCalendar)->all();
+        if ($id)
+        {
+            $worker = User::with('calendars.events')->find($id);
+                foreach($worker->calendars as $calendar)
+                {
+                    dump($calendar->events);
+                }
+        }
+
+        $workers = User::all();
         if ($date == null) {
             $date = date("Y-m-d");
         }
 
         $currentDate = strtotime($date);
-
         return view('worker', collect([
             'workers' => $workers,
-            'idCalendar' => $idCalendar,
+            'idCalendar' => $id,
             'date' => $date,
             'currentDate' => $currentDate
         ]));
@@ -54,9 +62,7 @@ class EventController extends Controller
 
     public function select() {
         $idCalendar = request()->get('calendar', 0);
-//        '/worker/' . $id . '/'
         $arrayEventsOrWorker = $this->show($idCalendar);
-
 
         return redirect()->route('worker_id',[$idCalendar]);
     }
@@ -118,11 +124,6 @@ class EventController extends Controller
             'worker' => $worker
         );
         return $CalendarEventWorker;
-//        return view('worker', [
-//            'Event' => Event::findOrFail($id)->all()
-//        ]);
-        //$event = Event::where('id',$id)->first();
-        //$event->show();
     }
 
     /**
