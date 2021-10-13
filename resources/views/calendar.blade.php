@@ -62,6 +62,16 @@ $idCalendar = 'company';
         </div>
         <div class="col-lg-3">
             <form method="post" action="/create">
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 @csrf
                 <div class="row">
                     <div class="mb-3">

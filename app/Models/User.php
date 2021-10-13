@@ -18,13 +18,10 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-<<<<<<<< HEAD:app/Models/User.php
         'name',
         'email',
         'password',
-========
-        'platform', 'user_original_id', 'name',
->>>>>>>> df61691b670bc5e7a98796556e47b7c7f8dafc21:app/User.php
+        'platform', 'user_original_id', 'name'
     ];
 
     /**

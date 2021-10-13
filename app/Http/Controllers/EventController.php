@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateEventRequest;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -45,7 +46,8 @@ class EventController extends Controller
 
     }
 
-    public function select() {
+    public function select()
+    {
         $id = request()->get('calendar', 0);
 
         return redirect('/worker/' . $id . '/');
@@ -56,12 +58,28 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(CreateEventRequest $request)
     {
-        dd($request->all());
-        $request = Arr::only($request->all(), ['date_start', 'date_finish', 'title']);
 
-        Event::create($request);
+        $requests = $request->validated();
+
+        if ($request['room'] == 'event') {
+            $requests['is_blocking'] = 0;
+        } else {
+            $requests['is_blocking'] = 1;
+        }
+        $requests['is_accepted'] = 0;
+        if ($request['idCalendar'] == 'company') {
+            $requests['calendar_id'] = 1;
+        } else {
+            $requests['calendar_id'] = $request['idCalendar'];
+        }
+
+        $requests['calendar_id'] = 1;
+        $requests['date_start'] = $request['date_start'] . " " . $request['time_start'];
+        $requests['date_finish'] = $request['date_finish'] . " " . $request['time_finish'];
+        $requests = Arr::only($requests, ['title', 'date_start', 'date_finish', 'is_accepted', 'is_blocking', 'calendar_id']);
+        Event::create($requests);
     }
 
     /**

@@ -19,6 +19,7 @@ class CreateTableCalendars extends Migration
             $table->string('type');
             $table->string('platform');
             $table->bigInteger('user_id')->unsigned();
+            $table->string('platform_calendar_id');
             $table->timestamps();
 
         });

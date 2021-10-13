@@ -22,14 +22,16 @@ class CalendarSeeder extends Seeder
             'name' => 'Персональный календарь Василия Зайцева',
             'type' => 'personal',
             'platform' => 'google',
-            'user_id' => 1
+            'user_id' => 1,
+            'platform_calendar_id'=>1
         ]);
 
         Calendar::firstOrCreate([
             'name' => 'Персональный календарь Тимура Родригеза',
             'type' => 'personal',
             'platform' => 'google',
-            'user_id' => 2
+            'user_id' => 2,
+            'platform_calendar_id'=>1
         ]);
 
 
@@ -37,21 +39,24 @@ class CalendarSeeder extends Seeder
             'name' => 'Персональный календарь Дмитрия Каперника',
             'type' => 'personal',
             'platform' => 'google',
-            'user_id' => 3
+            'user_id' => 3,
+            'platform_calendar_id'=>1
         ]);
 
         Calendar::firstOrCreate([
             'name' => 'Персональный календарь Семена Слепакова',
             'type' => 'personal',
             'platform' => 'google',
-            'user_id' => 4
+            'user_id' => 4,
+            'platform_calendar_id'=>1
         ]);
 
         Calendar::firstOrCreate([
             'name' => 'Персональный календарь Гарика Мартиросяна',
             'type' => 'personal',
             'platform' => 'google',
-            'user_id' => 5
+            'user_id' => 5,
+            'platform_calendar_id'=>1
         ]);
 
 
@@ -59,14 +64,16 @@ class CalendarSeeder extends Seeder
             'name' => 'Персональный календарь Алексея Щербакова',
             'type' => 'personal',
             'platform' => 'google',
-            'user_id' => 6
+            'user_id' => 6,
+            'platform_calendar_id'=>1
         ]);
 
         Calendar::firstOrCreate([
             'name' => 'Календарь компании Imagespark',
             'type' => 'room',
             'platform' => 'google',
-            'user_id' => 7
+            'user_id' => 7,
+            'platform_calendar_id'=>1
         ]);
 
 
