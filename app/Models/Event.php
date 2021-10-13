@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
-    //Authenticatable
     use HasFactory;
     public $timestamps = false;
 
