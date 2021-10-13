@@ -12,4 +12,8 @@ class User extends Model
     public $timestamps = false;
     protected $fillable = ['id' , 'name', 'original_id', 'created_at', 'updated_at'];
 
+    public function calendars()
+    {
+        return $this->hasMany(Calendar::class);
+    }
 }

@@ -146,6 +146,19 @@ while(true) {
 
 print "\n================================================\n";
 
+$event = new Google_Service_Calendar_Event(array(
+    'summary' => 'Goo15',
+    'start' => array(
+        'dateTime' => '2021-10-15T05:00:00-07:00',
+    ),
+    'end' => array(
+        'dateTime' => '2021-10-15T15:00:00-07:00',
+    )
+));
+
+$event = $service->events->insert('primary', $event);
+printf("Event created: %s\n", $event->htmlLink);
+
 //foreach ($events as $event)
 //{
 //    dd($event);

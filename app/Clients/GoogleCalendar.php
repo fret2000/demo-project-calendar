@@ -5,6 +5,7 @@ namespace App\Clients;
 use Google\Service\Calendar\Event;
 use Google_Client;
 use Google_Service_Calendar;
+use Google_Service_Calendar_Event;
 
 class GoogleCalendar
 {
@@ -15,9 +16,9 @@ class GoogleCalendar
 
     public function __construct()
     {
-        $this->client = getClient();
-        $service = new Google_Service_Calendar($this->client);
-
+        $this->client = null;
+        $this->client = $this->getClient();
+        //$service = new Google_Service_Calendar($this->client);
     }
 
     public function getClient()
@@ -46,16 +47,17 @@ class GoogleCalendar
         }
 
         // If there is no previous token or it's expired.
-        if(!$client->isAccessTokenExpired()) {
-            return;
-        }
+//        if(!$client->isAccessTokenExpired())
+//        {
+//            die("Oops! GoogleCalendar: Access token is expired");
+//            return;
+//        }
 
         // Refresh the token if possible, else fetch a new one.
         if($client->getRefreshToken())
         {
             $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
-        }
-        else
+        }else
         {
             // Request authorization from the user.
             $authUrl = $client->createAuthUrl();
@@ -89,27 +91,27 @@ class GoogleCalendar
         $simpleEventList = array();
 
         /** @var Event $event */
-        foreach ($eventList as $event)
+        foreach($eventList as $event)
         {
             $simpleEvent = array();
 
-            $simpleEvent ['title']= $event->getSummary();
-            $simpleEvent ['date_start']= $event->getStart()->getDateTime();
-            $simpleEvent ['date_finish']= $event->getEnd()->getDateTime();
+            $simpleEvent ['title'] = $event->getSummary();
+            $simpleEvent ['date_start'] = $event->getStart()->getDateTime();
+            $simpleEvent ['date_finish'] = $event->getEnd()->getDateTime();
 
-            $simpleEventList []= $simpleEvent;
+            $simpleEventList [] = $simpleEvent;
         }
 
         return $simpleEventList;
     }
 
-    public function fetchEvents($calendarId = 'primary', $from = '2000-01-01T00:00:00-00:00'): array
+    public function fetchEvents($calendarId = 'primary', $from = '2000-01-01T00:00:00-00:00'):array
     {
         $optParams = array(
             //'maxResults' => 10,Пошол накуй! Дай мне форстарыв рфкугп рвафптфип
             //'orderBy' => 'startTime',
             'singleEvents' => true,
-            'timeMin' => date('c', $from)
+            'timeMin' => date('c', (int)$from)
         );
 
         $service = new Google_Service_Calendar($this->getClient());
@@ -120,8 +122,28 @@ class GoogleCalendar
         return $simpleEvents;
     }
 
-    public function createEvent($calendarId = 'primary', $name, $options = [])
+    public function createEvent($calendarId = 'primary',
+                                $name = 'Event without name',
+                                $dateTime = ["start" => '2015-05-28T09:00:00-07:00',
+                                    "finish" => '2015-05-28T17:00:00-07:00'],
+                                $options = []
+    )
     {
+        $defaultDescription = 'Event created from ImageSpark-Intranet';
 
+        $event = new Google_Service_Calendar_Event(array(
+                                                       'summary' => $name,
+                                                       'description' => $defaultDescription,
+                                                       'start' => array(
+                                                           'dateTime' => $dateTime["start"],
+                                                       ),
+                                                       'end' => array(
+                                                           'dateTime' => $dateTime["finish"]
+                                                       )
+                                                   ));
+
+        $service = new Google_Service_Calendar($this->getClient());
+        $event = $service->events->insert($calendarId, $event);
+        //printf('Event created: %s\n', $event->htmlLink);
     }
 }
