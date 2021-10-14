@@ -44,18 +44,6 @@ class SyncGoogleCalendars extends Command
         $gCalendar = new GoogleCalendar();
         foreach(Calendar::all() as $calendar)
         {
-//            print "\nCalendar: \n";
-//            print "id: ".$calendar->id."\n";
-//            print "Name: ".$calendar->name."\n";
-//            print "Type: ".$calendar->type."\n";
-//            print "Platform: ".$calendar->platform."\n";
-//            print "Plat_Cal_id: ".$calendar->platform_calendar_id."\n";
-//            foreach($calendar as $key => $value)
-//            {
-//                print "$key : $value \n";
-//            }
-
-
             if($calendar->platform != 'google')
             {
                 continue;
@@ -65,39 +53,40 @@ class SyncGoogleCalendars extends Command
             В этом месте упадет как на страшную бабушку,
             если передать несуществующий platform_calendar_id
             */
-            $events = $gCalendar->fetchEvents($calendar->platform_calendar_id);
+            $googleEvents = $gCalendar->fetchEvents($calendar->platform_calendar_id);
+            //$googleEvents = $gCalendar->fetchEvents('deagleeeee01@gmail.com');
 
-
-            //$events = array();
-            //$events = $gCalendar->fetchEvents('dvatishka@gmail.com');
-            //$events = $gCalendar->fetchEvents('deagleeeee01@gmail.com');
-
-            foreach($events as $event)
+            foreach($googleEvents as $googleEvent)
             {
-                $event['calendar_id'] = $calendar->id;
-                $event['is_accepted'] = 1;
-                $event['is_blocking'] = 0;
+                $googleEvent['calendar_id'] = $calendar->id;
+                $googleEvent['is_accepted'] = 1;
+                $googleEvent['is_blocking'] = 0;
 
-                $event['date_start'] = $this->convertGTimeToDBTime($event['date_start']);
-                $event['date_finish'] = $this->convertGTimeToDBTime($event['date_finish']);
+                $googleEvent['date_start'] = $this->convertGTimeToDBTime($googleEvent['date_start']);
+                $googleEvent['date_finish'] = $this->convertGTimeToDBTime($googleEvent['date_finish']);
 
-//                print "\nEvent: \n";
-//                foreach($event as $key => $value)
-//                {
-//                    print "$key : $value \n";
-//                }
-                Event::create($event);
+                if(empty($googleEvent['title']))
+                {
+                    $googleEvent['title'] = "auto: Title";
+                }
+
+                $event = Event::firstOrCreate(
+                    ['external_id' => $googleEvent['external_id']],
+                    $googleEvent
+                );
             }
-            break;
         }
 
         print "\n\nЩа *зданется, я снимаю!\n";
-
         return 0;
     }
 
     protected function convertGTimeToDBTime($oldTime)
     {
+        if(empty($oldTime))
+        {
+            $oldTime = '2000-01-01T00:00:00+00:00';
+        }
         $plusIndex = strpos($oldTime, '+');
         $cropTime = substr($oldTime, 0, $plusIndex);
         $newTime = str_replace('T', ' ', $cropTime);

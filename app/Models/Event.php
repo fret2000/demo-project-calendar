@@ -25,7 +25,8 @@ class Event extends Model
         'id',
         'calendar_id',
         'is_accepted',
-        'is_blocking'
+        'is_blocking',
+        'external_id'
     ];
 
 }
