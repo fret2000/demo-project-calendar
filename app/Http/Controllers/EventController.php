@@ -75,25 +75,9 @@ class EventController extends Controller
     public function create(CreateEventRequest $request)
     {
 
-        $requests = $request->validated();
-
-        if ($request['room'] == 'event') {
-            $requests['is_blocking'] = 0;
-        } else {
-            $requests['is_blocking'] = 1;
-        }
-        $requests['is_accepted'] = 0;
-        if ($request['idCalendar'] == 'company') {
-            $requests['calendar_id'] = 1;
-        } else {
-            $requests['calendar_id'] = $request['idCalendar'];
-        }
-
-        $requests['calendar_id'] = 1;
-        $requests['date_start'] = $request['date_start'] . " " . $request['time_start'];
-        $requests['date_finish'] = $request['date_finish'] . " " . $request['time_finish'];
-        $requests = Arr::only($requests, ['title', 'date_start', 'date_finish', 'is_accepted', 'is_blocking', 'calendar_id']);
-        Event::create($requests);
+        $request = $request->afterValidation();
+        Event::create($request);
+        return redirect()->back();
     }
 
     /**
