@@ -3,6 +3,32 @@
 $cellHeight = 50;
 $cellWidth = 110;
 
+function getTimetable($hourStart = 10, $hourFinish = 19, $minuteStep = 15)
+{
+    $timetable = array();
+
+    $minute = -$minuteStep;
+    $hour = $hourStart;
+
+    while ($hour < $hourFinish) {
+        $minute += (int)$minuteStep;
+
+        if ($minute >= 60) {
+            $minute = 0;
+            $hour++;
+        }
+
+        if ($minute == 0) {
+            $minute = '00';
+        }
+
+        $timetable [] = ['hour' => $hour,
+            'minute' => $minute
+        ];
+    }
+
+    return $timetable;
+}
 ?>
 <style>
     .calendar__cell {
@@ -10,97 +36,108 @@ $cellWidth = 110;
     }
 
     .calendar__cell-h {
-        height:{{ $cellHeight }}px;
+        height: {{ $cellHeight }}px;
 
     }
 
     .calendar__event {
         position: absolute;
-        border-radius: 3px;
+        border-radius: 10px;
         background-color: #ccc;
     }
-    .calendar__event>div {
-        padding:6px;
+
+    .calendar__event > div {
+        padding: 6px;
     }
 </style>
 
 <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th scope="col"></th>
-                    @for ($i = 0; $i<=6; $i++)
-                        <th scope="col">{{ date("d.m.Y", $currentDate + $i*60*60*24) }}</th>
-                    @endfor
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">Событие</th>
-                    <td><a href=""></a></td>
-                    <td><a href=""></a></td>
-                    <td><a href=""></a></td>
-                    <td><a href=""></a></td>
-                    <td><a href=""></a></td>
-                    <td><a href=""></a></td>
-                    <td><a href=""></a></td>
-                </tr>
+    <tr>
+        <th scope="col"></th>
+        @for ($i = 0; $i<=6; $i++)
+            <th scope="col">{{ date("d.m.Y", $currentDate + $i*60*60*24) }}</th>
+        @endfor
+    </tr>
+    <tr>
+        <th scope="row">Событие</th>
+        <td><a href=""></a></td>
+        <td><a href=""></a></td>
+        <td><a href=""></a></td>
+        <td><a href=""></a></td>
+        <td><a href=""></a></td>
+        <td><a href=""></a></td>
+        <td><a href=""></a></td>
+    </tr>
+    <?php
+    foreach (getTimetable() as $hour){
+    ?>
+    <tr>
+        <th class="calendar__cell-h" scope="row"><?=$hour['hour'] . ":" . $hour['minute']?></th>
+        <?php
+        for ($td = 0; $td < 7; $td++){
+            $columnDate = $currentDate + $td*60*60*24;
+        ?>
+        <td class="calendar__cell">
+            @foreach($events as $event)
                 <?php
+                    $parseDateTimeStart = explode(' ', $event['date_start']);
+                    $parseDateStart = $parseDateTimeStart[0];
+                    $parseTimeStart = explode(':', $parseDateTimeStart[1]);
+                    unset($parseTimeStart[2]);
 
+                    $parseDateTimeFinish = explode(' ', $event['date_finish']);
+                    $parseDateFinish = $parseDateTimeFinish[0];
+                    $parseTimeFinish = explode(':', $parseDateTimeFinish[1]);
+                    unset($parseTimeFinish[2]);
 
-                function getTimetable($hourStart = 10, $hourFinish = 19, $minuteStep = 15)
-                {
-                    $timetable = array();
+                    $dateStart = strtotime($event['date_start']);
+                    $dateFinish = strtotime($event['date_finish']);
+                    $columnDate1 = date("d.m.Y", $columnDate);
 
-                    $minute = -$minuteStep;
-                    $hour = $hourStart;
+                    $dayStart = strtotime($parseDateTimeStart[0]);
+                    $dayFinish = strtotime($parseDateTimeFinish[0]);
 
-                    while ($hour < $hourFinish) {
-                        $minute += (int)$minuteStep;
-
-                        if ($minute >= 60) {
-                            $minute = 0;
-                            $hour++;
-                        }
-
-                        if ($minute == 0) {
-                            $minute = '00';
-                        }
-
-                        $timetable [] = ['hour' => $hour,
-                            'minute' => $minute
-                        ];
-                    }
-
-                    return $timetable;
-                }
-
-
-                foreach (getTimetable() as $hour){
                 ?>
-                <tr>
-                    <th class="calendar__cell-h" scope="row"><?=$hour['hour'] . ":" . $hour['minute']?></th>
+                @if ($hour['hour'] == $parseTimeStart[0] && $hour['minute'] == $parseTimeStart[1])
                     <?php
-                    for ($td = 0; $td < 7; $td++){
 
-                    $offsetTime = rand(10,19);
-                    $cell = $cellHeight*rand(1,20 - $offsetTime);
-                    ?>
-
-                    <td class="calendar__cell">
-
-                        @if ($hour['hour'] == $offsetTime && $hour['minute'] == 0)
-                        <?php
-                        $topPosition = round(0/15*$cellHeight);
-                        ?>
-                            <div class="calendar__event" style="top:{{ $topPosition }}px; left:5px; height: {{$cell}}px; width: {{$cellWidth}}px">
+                        if($dayStart <= $columnDate && $columnDate <= $dayFinish)
+                        {
+                            $topPosition = round(0 / 15 * $cellHeight);
+                            if ($parseDateStart == $parseDateFinish) {
+                                if ($parseTimeStart[0] == $parseTimeFinish[0]) {
+                                    $diffMinutes = ($dateFinish - $dateStart) / 60;
+                                    $cell = $cellHeight * ($diffMinutes / 15);
+                            ?>
+                            <div class="calendar__event"
+                                 style="top:{{ $topPosition }}px; left:5px; height: {{$cell+50}}px; width: {{$cellWidth}}px">
                                 <div>
-                                    Событие
+                                    <?php echo $event['title']?><br><?php echo $parseDateTimeStart[1] ?>
                                 </div>
                             </div>
-                        @endif
-                    </td>
-                    <? } ?>
-                </tr>
-                <?php  } ?>
-                </tbody>
-            </table>
+                            <?php
+                                }else{
+                                    $diffMinutes = ($dateFinish - $dateStart) / 60;
+                                    $cell = $cellHeight * ($diffMinutes / 15);
+                                if ($cell < 0) {
+                                    $cell = $cell * (-1);
+                                }
+                            ?>
+                            <div class="calendar__event"
+                                 style="top:{{ $topPosition }}px; left:5px; height: {{$cell+50}}px; width: {{$cellWidth}}px">
+                                <div>
+                                    <?php echo $event['title']?><br><?php echo $parseDateTimeStart[1]?>
+                                </div>
+                            </div>
+                    <?php
+                            }
+                        }
+                    }
+                    ?>
+                @endif
+            @endforeach
+        </td>
+        <? } ?>
+    </tr>
+    <? } ?>
+</table>

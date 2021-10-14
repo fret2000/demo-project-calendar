@@ -30,7 +30,6 @@ class CreateEventRequest extends FormRequest
             'date_finish' => 'required',
             'title' => 'required',
             'idCalendar' => 'required'
-
         ];
     }
 

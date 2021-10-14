@@ -62,12 +62,13 @@
                     <div class="row">
                         <div class="col-sm">
                             <select name="calendar" class="form-control">
-{{--                                <option value="null">Сотрудник</option>--}}
+                                {{--                                <option value="null">Сотрудник</option>--}}
                                 @foreach($workers as $worker)
-                                <option value="{{$worker['id']}}" {{$worker['id'] == $idCalendar ? 'selected' : ''}}>{{$worker['name']}}</option>
+                                    <option
+                                        value="{{$worker['id']}}" {{$worker['id'] == $idCalendar ? 'selected' : ''}}>{{$worker['name']}}</option>
                                 @endforeach
-{{--                                <option value="2">Александр Петро</option>--}}
-{{--                                <option value="3">Данила Козловский</option>--}}
+                                {{--                                <option value="2">Александр Петро</option>--}}
+                                {{--                                <option value="3">Данила Козловский</option>--}}
                             </select>
                         </div>
                     </div>
@@ -136,7 +137,7 @@
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
                                   name="title">{{old('title')}}</textarea>
                     </div>
-                    <input type="hidden" name="idCalendarUser" value="{{$idCalendar}}">
+                    <input type="hidden" name="idCalendar" value="{{$idCalendar}}">
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </div>
             </form>

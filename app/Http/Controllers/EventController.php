@@ -17,8 +17,16 @@ class EventController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function index($idCalendar, $date = null)
+    public function index($id = 1, $date = null)
     {
+        if ($id) {
+            $worker = User::with('calendars.events')->find($id);
+            foreach ($worker->calendars as $calendar) {
+                $events = $calendar->events;
+            }
+        }
+
+        $workers = User::all();
         if ($date == null) {
             $date = date("Y-m-d");
         }
@@ -26,22 +34,21 @@ class EventController extends Controller
         $currentDate = strtotime($date);
 
         return view('calendar', collect([
-            'idCalendar' => $idCalendar,
+            'events' => $events,
+            'idCalendar' => $id,
             'date' => $date,
             'currentDate' => $currentDate
         ]));
 
     }
 
-    public function indexWorker($id, $date = null)
+    public function indexWorker($id =1, $date = null)
     {
-        if ($id)
-        {
+        if ($id) {
             $worker = User::with('calendars.events')->find($id);
-                foreach($worker->calendars as $calendar)
-                {
-                    dump($calendar->events);
-                }
+            foreach ($worker->calendars as $calendar) {
+                $events = $calendar->events;
+            }
         }
 
         $workers = User::all();
@@ -51,20 +58,21 @@ class EventController extends Controller
 
         $currentDate = strtotime($date);
         return view('worker', collect([
+            'events' => $events,
             'workers' => $workers,
             'idCalendar' => $id,
             'date' => $date,
             'currentDate' => $currentDate
         ]));
-
     }
 
 
-    public function select() {
+    public function select()
+    {
         $idCalendar = request()->get('calendar', 0);
         $arrayEventsOrWorker = $this->show($idCalendar);
 
-        return redirect()->route('worker_id',[$idCalendar]);
+        return redirect()->route('worker_id', [$idCalendar]);
     }
 
     /**
@@ -74,6 +82,7 @@ class EventController extends Controller
      */
     public function create(CreateEventRequest $request)
     {
+
 
         $request = $request->afterValidation();
         Event::create($request);
@@ -102,7 +111,7 @@ class EventController extends Controller
         $calendar = Calendar::findOrFail($id)->all();
         $event = Event::findOrFail($id)->all();
         $worker = User::findOrFail($id)->all();
-        $CalendarEventWorker = array (
+        $CalendarEventWorker = array(
             'calendar' => $calendar,
             'event' => $event,
             'worker' => $worker
