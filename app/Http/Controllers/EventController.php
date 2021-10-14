@@ -17,7 +17,7 @@ class EventController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function index($id = 1, $date = null)
+    public function index($id = 7, $date = null)
     {
         if ($id) {
             $worker = User::with('calendars.events')->find($id);

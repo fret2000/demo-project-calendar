@@ -3,33 +3,8 @@
 $cellHeight = 50;
 $cellWidth = 110;
 
-function getTimetable($hourStart = 10, $hourFinish = 19, $minuteStep = 15)
-{
-    $timetable = array();
-
-    $minute = -$minuteStep;
-    $hour = $hourStart;
-
-    while ($hour < $hourFinish) {
-        $minute += (int)$minuteStep;
-
-        if ($minute >= 60) {
-            $minute = 0;
-            $hour++;
-        }
-
-        if ($minute == 0) {
-            $minute = '00';
-        }
-
-        $timetable [] = ['hour' => $hour,
-            'minute' => $minute
-        ];
-    }
-
-    return $timetable;
-}
 ?>
+@include('functions.functionsForView')
 <style>
     .calendar__cell {
         position: relative;
@@ -69,7 +44,10 @@ function getTimetable($hourStart = 10, $hourFinish = 19, $minuteStep = 15)
         <td><a href=""></a></td>
     </tr>
     <?php
-    foreach (getTimetable() as $hour){
+    $hourStart = 10;
+    $hourFinish = 19;
+    $minuteStep = 15;
+    foreach (getTimetable($hourStart, $hourFinish, $minuteStep) as $hour){
     ?>
     <tr>
         <th class="calendar__cell-h" scope="row"><?=$hour['hour'] . ":" . $hour['minute']?></th>
@@ -97,34 +75,52 @@ function getTimetable($hourStart = 10, $hourFinish = 19, $minuteStep = 15)
                     $dayStart = strtotime($parseDateTimeStart[0]);
                     $dayFinish = strtotime($parseDateTimeFinish[0]);
 
+                    $parseDateStart = strtotime($parseDateStart);
+                    $parseDateFinish = strtotime($parseDateFinish);
+
+                    $curDay =
+                        [
+                          "day" => $columnDate,
+                          'hm' => ($hour['hour'] * 60) + $hour['minute']
+                        ];
+                    $ds =
+                        [
+                            "day" => $parseDateStart,
+                            'hm' => ($parseTimeStart[0] * 60) + $parseTimeStart[1]
+                        ];
+                    $df =
+                        [
+                            "day" => $parseDateFinish,
+                            'hm' => ($parseTimeFinish[0] * 60) + $parseTimeFinish[1]
+                        ];
+                    $hs = $hourStart*60;
+                    $hf = $hourFinish*60;
                 ?>
                 @if ($hour['hour'] == $parseTimeStart[0] && $hour['minute'] == $parseTimeStart[1])
                     <?php
-
                         if($dayStart <= $columnDate && $columnDate <= $dayFinish)
                         {
                             $topPosition = round(0 / 15 * $cellHeight);
-                            if ($parseDateStart == $parseDateFinish) {
-                                if ($parseTimeStart[0] == $parseTimeFinish[0]) {
-                                    $diffMinutes = ($dateFinish - $dateStart) / 60;
-                                    $cell = $cellHeight * ($diffMinutes / 15);
-                            ?>
+                            if ($parseDateStart == $parseDateFinish)
+                            {
+                                $diffMinutes = ($dateFinish - $dateStart) / 60;
+                                $cell = $cellHeight * ($diffMinutes / 15);
+                    ?>
                             <div class="calendar__event"
-                                 style="top:{{ $topPosition }}px; left:5px; height: {{$cell+50}}px; width: {{$cellWidth}}px">
+                                style="top:{{ $topPosition }}px; left:5px; height: {{$cell+$cellHeight}}px; width: {{$cellWidth}}px">
                                 <div>
                                     <?php echo $event['title']?><br><?php echo $parseDateTimeStart[1] ?>
                                 </div>
                             </div>
-                            <?php
-                                }else{
-                                    $diffMinutes = ($dateFinish - $dateStart) / 60;
-                                    $cell = $cellHeight * ($diffMinutes / 15);
-                                if ($cell < 0) {
-                                    $cell = $cell * (-1);
-                                }
-                            ?>
+                        <?php
+                            }
+                            elseif ($parseDateStart < $parseDateFinish)
+                            {
+                                $diffMinutes = ($dateFinish - $dateStart) / 60;
+                                $cell = $cellHeight * (getCell($curDay, $ds, $df, $hs, $hf, $minuteStep) / 15);
+                        ?>
                             <div class="calendar__event"
-                                 style="top:{{ $topPosition }}px; left:5px; height: {{$cell+50}}px; width: {{$cellWidth}}px">
+                                style="top:{{ $topPosition }}px; left:5px; height: {{$cell+$cellHeight}}px; width: {{$cellWidth}}px">
                                 <div>
                                     <?php echo $event['title']?><br><?php echo $parseDateTimeStart[1]?>
                                 </div>
@@ -132,8 +128,7 @@ function getTimetable($hourStart = 10, $hourFinish = 19, $minuteStep = 15)
                     <?php
                             }
                         }
-                    }
-                    ?>
+                        ?>
                 @endif
             @endforeach
         </td>

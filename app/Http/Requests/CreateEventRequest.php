@@ -44,13 +44,7 @@ class CreateEventRequest extends FormRequest
             $request['is_blocking'] = 1;
         }
         $request['is_accepted'] = 0;
-        if ($request['idCalendar'] == 'company') {
-            $request['calendar_id'] = 1;
-        } else {
-            $request['calendar_id'] = $this['idCalendar'];
-        }
-
-        $request['calendar_id'] = 1;
+        $request['calendar_id'] = $this['idCalendar'];
         $request['date_start'] = $request['date_start'] . " " . $request['time_start'];
         $request['date_finish'] = $request['date_finish'] . " " . $request['time_finish'];
         $request = Arr::only($request, ['title', 'date_start', 'date_finish', 'is_accepted', 'is_blocking', 'calendar_id']);
