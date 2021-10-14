@@ -62,12 +62,13 @@
                     <div class="row">
                         <div class="col-sm">
                             <select name="calendar" class="form-control">
-{{--                                <option value="null">Сотрудник</option>--}}
+                                {{--                                <option value="null">Сотрудник</option>--}}
                                 @foreach($workers as $worker)
-                                <option value="{{$worker['id']}}" {{$worker['id'] == $idCalendar ? 'selected' : ''}}>{{$worker['name']}}</option>
+                                    <option
+                                        value="{{$worker['id']}}" {{$worker['id'] == $idCalendar ? 'selected' : ''}}>{{$worker['name']}}</option>
                                 @endforeach
-{{--                                <option value="2">Александр Петро</option>--}}
-{{--                                <option value="3">Данила Козловский</option>--}}
+                                {{--                                <option value="2">Александр Петро</option>--}}
+                                {{--                                <option value="3">Данила Козловский</option>--}}
                             </select>
                         </div>
                     </div>
@@ -93,7 +94,7 @@
                 <div class="row">
                     <div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label">Дата</label>
-                        <input type="date" class="form-control" id="exampleFormControlInput1" name="currentDate">
+                        <input type="date" class="form-control" id="exampleFormControlInput1" name="currentDate" value="{{old('currentDate')}}">
                     </div>
 
                     <div class="mb-3">
@@ -112,31 +113,31 @@
                     <div class="col-lg-6">
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Время старт</label>
-                            <input type="time" class="form-control" id="exampleFormControlInput1" name="time_start">
+                            <input type="time" class="form-control" id="exampleFormControlInput1" name="time_start" value="{{old('time_start')}}">
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Дата старт</label>
-                            <input type="date" class="form-control" id="exampleFormControlInput1" name="date_start">
+                            <input type="date" class="form-control" id="exampleFormControlInput1" name="date_start" value="{{old('date_start')}}">
                         </div>
                     </div>
 
                     <div class="col-lg-6">
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Время окончание</label>
-                            <input type="time" class="form-control" id="exampleFormControlInput1" name="time_finish">
+                            <input type="time" class="form-control" id="exampleFormControlInput1" name="time_finish" value="{{old('time_finish')}}">
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Дата окончание</label>
-                            <input type="date" class="form-control" id="exampleFormControlInput1" name="date_finish">
+                            <input type="date" class="form-control" id="exampleFormControlInput1" name="date_finish" value="{{old('date_finish')}}">
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="exampleFormControlTextarea1" class="form-label">Описание textarea</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                  name="title"></textarea>
+                                  name="title">{{old('title')}}</textarea>
                     </div>
-                    <input type="hidden" name="idCalendarUser" value="{{$idCalendar}}">
+                    <input type="hidden" name="idCalendar" value="{{$idCalendar}}">
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </div>
             </form>

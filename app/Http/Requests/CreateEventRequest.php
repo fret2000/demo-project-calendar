@@ -24,7 +24,6 @@ class CreateEventRequest extends FormRequest
      */
     public function rules()
     {
-
         return [
             'currentDate' => 'required',
             'retryEvent' => 'required',
@@ -35,7 +34,6 @@ class CreateEventRequest extends FormRequest
             'date_finish' => 'required',
             'title' => 'required',
             'idCalendar' => 'required'
-
         ];
     }
 }
