@@ -75,6 +75,11 @@ class SyncGoogleCalendars extends Command
             foreach($events as $event)
             {
                 $event['calendar_id'] = $calendar->id;
+                $event['is_accepted'] = 1;
+                $event['is_blocking'] = 0;
+
+                $event['date_start'] = $this->convertGTimeToDBTime($event['date_start']);
+                $event['date_finish'] = $this->convertGTimeToDBTime($event['date_finish']);
 
 //                print "\nEvent: \n";
 //                foreach($event as $key => $value)
@@ -83,10 +88,20 @@ class SyncGoogleCalendars extends Command
 //                }
                 Event::create($event);
             }
+            break;
         }
 
         print "\n\nЩа *зданется, я снимаю!\n";
 
         return 0;
+    }
+
+    protected function convertGTimeToDBTime($oldTime)
+    {
+        $plusIndex = strpos($oldTime, '+');
+        $cropTime = substr($oldTime, 0, $plusIndex);
+        $newTime = str_replace('T', ' ', $cropTime);
+
+        return $newTime;
     }
 }
