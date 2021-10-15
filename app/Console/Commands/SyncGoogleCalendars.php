@@ -77,7 +77,7 @@ class SyncGoogleCalendars extends Command
             }
         }
 
-        print "\n\nЩа *зданется, я снимаю!\n";
+        //print "\n\nЩа *зданется, я снимаю!\n";
         return 0;
     }
 
