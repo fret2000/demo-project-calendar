@@ -42,6 +42,7 @@ class SyncGoogleCalendars extends Command
     {
         // From google to local db
         $gCalendar = new GoogleCalendar();
+
         foreach(Calendar::all() as $calendar)
         {
             if($calendar->platform != 'google')

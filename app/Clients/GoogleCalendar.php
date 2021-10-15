@@ -124,9 +124,9 @@ class GoogleCalendar
     }
 
     public function createEvent($calendarId = 'primary',
-                                $name = 'Event without name',
-                                $dateTime = ["start" => '2015-05-28T09:00:00-07:00',
-                                    "finish" => '2015-05-28T17:00:00-07:00'],
+                                $name = "It's EVENT",
+                                $dateTime = ["start" => '2021-10-20T09:00:00-07:00',
+                                    "finish" => '2021-10-20T17:00:00-07:00'],
                                 $options = []
     )
     {
