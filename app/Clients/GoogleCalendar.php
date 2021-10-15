@@ -98,6 +98,7 @@ class GoogleCalendar
             $simpleEvent ['title'] = $event->getSummary();
             $simpleEvent ['date_start'] = $event->getStart()->getDateTime();
             $simpleEvent ['date_finish'] = $event->getEnd()->getDateTime();
+            $simpleEvent ['external_id'] = $event->getId();
 
             $simpleEventList [] = $simpleEvent;
         }

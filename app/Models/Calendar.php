@@ -15,7 +15,8 @@ class Calendar extends Model
         'user_id',
         'name',
         'type',
-        'platform'
+        'platform',
+        'platform_calendar_id'
     ];
     const TYPES = [
         1 => 'personal',
