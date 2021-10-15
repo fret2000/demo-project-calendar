@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Clients\GoogleCalendar;
 use App\Models\Calendar;
+use App\Models\Event;
 use Illuminate\Console\Command;
 
 class CreateEventGoogle extends Command
@@ -39,19 +40,71 @@ class CreateEventGoogle extends Command
      */
     public function handle()
     {
+        $gCalendar = new GoogleCalendar();
+
         foreach(Calendar::all() as $calendar)
         {
-            if ($calendar->platform_calendar_id);
+            $gCalendarId = $calendar->platform_calendar_id;
+            $googleEvents = $gCalendar->fetchEvents($gCalendarId);
+//            print_r($calendar);
+            $a = Event::where('calendar_id', $calendar->id)->where('external_id', 0);
+
+
+            //dd($a);
+
+            $a->each(function ($item) use ($gCalendar, $gCalendarId) {
+                // Some code
+//                dd([
+//                    $gCalendarId,
+//                    $item->title,
+//                    [
+//                        'start'=>$this->convertDBTimeToGTime($item->date_start),
+//                        'finish'=>$this->convertDBTimeToGTime($item->date_finish)
+//                    ]
+//                ]);
+                $gCalendar->createEvent(
+                    $gCalendarId,
+                    $item['title'],
+                    [
+                        'start'=>$this->convertDBTimeToGTime($item->date_start),
+                        'finish'=>$this->convertDBTimeToGTime($item->date_finish)
+                    ]
+                );
+            });
+
+
+
+
+            //dd($googleEvents);
+              //  $gCalendar->createEvent();
+
+
+            //$dataEvent = Event::where($calendar['calendar_id']  = 0);
+
+        //        print_r($dataEvent);
+
         }
-        $gCalendar = new GoogleCalendar();
-        $googleEvents = $gCalendar->fetchEvents($calendar->platform_calendar_id);
 
 
 
 
 
 
-        $gCalendar->createEvent();
+    //    $gCalendar->createEvent();
 
+    }
+
+    protected function convertDBTimeToGTime($oldTime): string
+    {
+        if(empty($oldTime))
+        {
+            // Это весьма простое-глупое решение, зато достаточно понятное
+            $oldTime = '2000-01-01 00:00:00';
+        }
+
+        $newTime = str_replace(' ', 'T', $oldTime);
+        $newTime .= '-04:00';
+
+        return $newTime;
     }
 }

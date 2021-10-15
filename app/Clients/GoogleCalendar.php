@@ -119,8 +119,8 @@ class GoogleCalendar
         $results = $service->events->listEvents($calendarId, $optParams);
         $events = $results->getItems();
 
-        $simpleEvents = static::simplificateEvent($events);
-        return $simpleEvents;
+
+        return $events;
     }
 
     public function createEvent($calendarId = 'primary',
@@ -145,6 +145,9 @@ class GoogleCalendar
 
         $service = new Google_Service_Calendar($this->getClient());
         $event = $service->events->insert($calendarId, $event);
+
+        dd($event->id);
+
         //printf('Event created: %s\n', $event->htmlLink);
     }
 }
