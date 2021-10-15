@@ -54,12 +54,12 @@ class SyncGoogleCalendars extends Command
             В этом месте упадет как на страшную бабушку,
             если передать несуществующий platform_calendar_id
             */
-            //ETO TYT DIMA
-            //$simpleEvents = static::simplificateEvent($events);
-            $googleEvents = $gCalendar->fetchEvents($calendar->platform_calendar_id);
             //$googleEvents = $gCalendar->fetchEvents('imagespark.intranet@gmail.com');
 
-            $this->syncEvents($googleEvents, $calendar->id);
+            $googleEvents = $gCalendar->fetchEvents($calendar->platform_calendar_id);
+            $googleConvertedEvents = GoogleCalendar::simplificateEvent($googleEvents);
+
+            $this->syncEvents($googleConvertedEvents, $calendar->id);
         }
         return 0;
     }

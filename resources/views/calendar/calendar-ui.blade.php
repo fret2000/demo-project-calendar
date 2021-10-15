@@ -96,7 +96,7 @@ $cellWidth = 110;
                     $HourStart = $hourStart*60;
                     $HourFinish = $hourFinish*60;
                 ?>
-                @if (($hour['hour'] == $parseTimeStart[0] || $hour['hour'] == $hourStart) && $hour['minute'] == $parseTimeStart[1])
+                @if (($hour['hour'] == $parseTimeStart[0] ) && $hour['minute'] == $parseTimeStart[1])
                     <?php
                         if($dayStart <= $columnDate && $columnDate <= $dayFinish)
                         {
@@ -110,6 +110,7 @@ $cellWidth = 110;
                                 style="top:{{ $topPosition }}px; left:5px; height: {{$cell+$cellHeight}}px; width: {{$cellWidth}}px">
                                 <div>
                                     <?php echo $event['title']?><br><?php echo $parseDateTimeStart[1] ?>
+
                                 </div>
                             </div>
                         <?php

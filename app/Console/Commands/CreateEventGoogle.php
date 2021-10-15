@@ -39,25 +39,26 @@ class CreateEventGoogle extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle():int
     {
         $gCalendar = new GoogleCalendar();
 
         foreach(Calendar::all() as $calendar)
         {
             $gCalendarId = $calendar->platform_calendar_id;
-            $googleEvents = $gCalendar->fetchEvents($gCalendarId);
-//            print_r($calendar);
-            $a = Event::where('calendar_id', $calendar->id)->where('external_id', 0);
+
+            $internalEvents = Event::where('calendar_id', $calendar->id)->where('external_id', '0');
 
 
 
-            $a->each(function ($item) use ($gCalendar, $gCalendarId) {
-
+            $internalEvents->each(
+                function ($item)
+                use ($gCalendar, $gCalendarId)
+            {
                 $externalId =
                     $gCalendar->createEvent(
                     $gCalendarId,
-                    $item['title'],
+                    $item->title,
                     [
                         'start'=>$this->convertDBTimeToGTime($item->date_start),
                         'finish'=>$this->convertDBTimeToGTime($item->date_finish)
@@ -67,33 +68,8 @@ class CreateEventGoogle extends Command
 
                 $item->save();
             });
-
-            //dd("Ты охуел?");
-
-//            $a->each(function ($item){
-//               dd("Петух и пидорас, зато работает ".$item->external_id);
-//            });
-
-
-
-
-            //dd($googleEvents);
-              //  $gCalendar->createEvent();
-
-
-            //$dataEvent = Event::where($calendar['calendar_id']  = 0);
-
-        //        print_r($dataEvent);
-
         }
-
-
-
-
-
-
-    //    $gCalendar->createEvent();
-
+        return 0;
     }
 
     protected function convertDBTimeToGTime($oldTime): string
@@ -105,6 +81,8 @@ class CreateEventGoogle extends Command
         }
 
         $newTime = str_replace(' ', 'T', $oldTime);
+
+        //Чтобы событие на 10 часов отображалось в 10 часов (актульно для нашего часового пояса)
         $newTime .= '+04:00';
 
         return $newTime;
