@@ -136,17 +136,19 @@ class GoogleCalendar
                                                        'summary' => $name,
                                                        'description' => $defaultDescription,
                                                        'start' => array(
-                                                           'dateTime' => $dateTime["start"],
+                                                           'dateTime' => $dateTime["start"]
                                                        ),
                                                        'end' => array(
                                                            'dateTime' => $dateTime["finish"]
                                                        )
                                                    ));
 
+        //dd($event);
+
         $service = new Google_Service_Calendar($this->getClient());
         $event = $service->events->insert($calendarId, $event);
 
-        dd($event->id);
+        return $event->id;
 
         //printf('Event created: %s\n', $event->htmlLink);
     }

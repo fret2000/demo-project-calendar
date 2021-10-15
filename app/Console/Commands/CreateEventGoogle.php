@@ -6,6 +6,7 @@ use App\Clients\GoogleCalendar;
 use App\Models\Calendar;
 use App\Models\Event;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Collection;
 
 class CreateEventGoogle extends Command
 {
@@ -50,19 +51,11 @@ class CreateEventGoogle extends Command
             $a = Event::where('calendar_id', $calendar->id)->where('external_id', 0);
 
 
-            //dd($a);
 
             $a->each(function ($item) use ($gCalendar, $gCalendarId) {
-                // Some code
-//                dd([
-//                    $gCalendarId,
-//                    $item->title,
-//                    [
-//                        'start'=>$this->convertDBTimeToGTime($item->date_start),
-//                        'finish'=>$this->convertDBTimeToGTime($item->date_finish)
-//                    ]
-//                ]);
-                $gCalendar->createEvent(
+
+                $externalId =
+                    $gCalendar->createEvent(
                     $gCalendarId,
                     $item['title'],
                     [
@@ -70,7 +63,16 @@ class CreateEventGoogle extends Command
                         'finish'=>$this->convertDBTimeToGTime($item->date_finish)
                     ]
                 );
+                $item->external_id = $externalId;
+
+                $item->save();
             });
+
+            //dd("Ты охуел?");
+
+//            $a->each(function ($item){
+//               dd("Петух и пидорас, зато работает ".$item->external_id);
+//            });
 
 
 
@@ -103,7 +105,7 @@ class CreateEventGoogle extends Command
         }
 
         $newTime = str_replace(' ', 'T', $oldTime);
-        $newTime .= '-04:00';
+        $newTime .= '+04:00';
 
         return $newTime;
     }
