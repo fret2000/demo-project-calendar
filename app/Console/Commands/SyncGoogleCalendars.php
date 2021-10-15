@@ -54,37 +54,72 @@ class SyncGoogleCalendars extends Command
             если передать несуществующий platform_calendar_id
             */
             $googleEvents = $gCalendar->fetchEvents($calendar->platform_calendar_id);
-            //$googleEvents = $gCalendar->fetchEvents('deagleeeee01@gmail.com');
+            //$googleEvents = $gCalendar->fetchEvents('imagespark.intranet@gmail.com');
 
-            foreach($googleEvents as $googleEvent)
+            $this->syncEvents($googleEvents, $calendar->id);
+        }
+        return 0;
+    }
+
+    protected function syncEvents($googleEvents, $calendarID)
+    {
+        foreach($googleEvents as $googleEvent)
+        {
+            $googleEvent['calendar_id'] = $calendarID;
+            $googleEvent['is_accepted'] = 1;
+            $googleEvent['is_blocking'] = 0;
+
+            $googleEvent['date_start'] = $this->convertGTimeToDBTime($googleEvent['date_start']);
+            $googleEvent['date_finish'] = $this->convertGTimeToDBTime($googleEvent['date_finish']);
+
+            if(empty($googleEvent['title']))
             {
-                $googleEvent['calendar_id'] = $calendar->id;
-                $googleEvent['is_accepted'] = 1;
-                $googleEvent['is_blocking'] = 0;
+                $googleEvent['title'] = "auto: Title";
+            }
 
-                $googleEvent['date_start'] = $this->convertGTimeToDBTime($googleEvent['date_start']);
-                $googleEvent['date_finish'] = $this->convertGTimeToDBTime($googleEvent['date_finish']);
+            $event = Event::firstOrCreate(
+                ['external_id' => $googleEvent['external_id']],
+                $googleEvent
+            );
 
-                if(empty($googleEvent['title']))
-                {
-                    $googleEvent['title'] = "auto: Title";
-                }
+            if(!$event->wasRecentlyCreated && !$this->isEqual($event, $googleEvent))
+            {
+                $this->syncEventsAndSave($event, $googleEvent);
+            }
+        }
+    }
 
-                $event = Event::firstOrCreate(
-                    ['external_id' => $googleEvent['external_id']],
-                    $googleEvent
-                );
+    protected function syncEventsAndSave($event, $gevent)
+    {
+        foreach($gevent as $key => $value)
+        {
+            $event[$key] = $value;
+        }
+
+        $event->save();
+    }
+
+    protected function isEqual($event, $gevent):bool
+    {
+        $result = true;
+
+        foreach($gevent as $key => $value)
+        {
+            if($event[$key] != $value)
+            {
+                $result = false;
+                break;
             }
         }
 
-        //print "\n\nЩа *зданется, я снимаю!\n";
-        return 0;
+        return $result;
     }
 
     protected function convertGTimeToDBTime($oldTime)
     {
         if(empty($oldTime))
         {
+            // Это весьма простое-глупое решение, зато достаточно понятное
             $oldTime = '2000-01-01T00:00:00+00:00';
         }
         $plusIndex = strpos($oldTime, '+');
