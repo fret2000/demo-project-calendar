@@ -1,7 +1,4 @@
-<?php
-$idCalendar = 'company';
-?>
-    <!doctype html>
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -76,29 +73,29 @@ $idCalendar = 'company';
                 <div class="row">
                     <div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label">Дата</label>
-                        <input type="date" class="form-control" id="exampleFormControlInput1" name="currentDate">
+                        <input type="date" class="form-control" id="exampleFormControlInput1" name="currentDate" value="{{old('currentDate')}}">
                     </div>
 
                     <div class="mb-3">
                         <label for="exampleFormControlTextarea1" class="form-label">Повторить событие</label>
                         <select class="form-select" aria-label="Default select example" name="retryEvent">
-                            <option selected></option>
-                            <option value="not">Не повторять</option>
-                            <option value="everyday">Ежедневно</option>
-                            <option value="everyweek">Еженедельно</option>
-                            <option value="everymonth">Ежемесячно</option>
-                            <option value="weekdays">Будние дни</option>
-                            <option value="period">Период</option>
+                            <option selected>{{old('retryEvent')}}</option>
+                            <option value="Не повторять">Не повторять</option>
+                            <option value="Ежедневно">Ежедневно</option>
+                            <option value="Еженедельно">Еженедельно</option>
+                            <option value="Ежемесячно">Ежемесячно</option>
+                            <option value="Будние дни">Будние дни</option>
+                            <option value="Период">Период</option>
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="exampleFormControlTextarea1" class="form-label">Комната/событие</label>
                         <select class="form-select" aria-label="Default select example" name="room">
-                            <option selected></option>
-                            <option value="room1">Переговорка 1</option>
-                            <option value="room2">Переговорка 2</option>
-                            <option value="room3">Переговорка 3</option>
+                            <option selected>{{old('room')}}</option>
+                            <option value="Переговорка 1">Переговорка 1</option>
+                            <option value="Переговорка 2">Переговорка 2</option>
+                            <option value="Переговорка 3">Переговорка 3</option>
                             <option value="event">Событие</option>
                         </select>
                     </div>
@@ -106,29 +103,29 @@ $idCalendar = 'company';
                     <div class="col-lg-6">
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Время старт</label>
-                            <input type="time" class="form-control" id="exampleFormControlInput1" name="time_start">
+                            <input type="time" class="form-control" id="exampleFormControlInput1" name="time_start" value="{{old('time_start')}}">
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Дата старт</label>
-                            <input type="date" class="form-control" id="exampleFormControlInput1" name="date_start">
+                            <input type="date" class="form-control" id="exampleFormControlInput1" name="date_start" value="{{old('date_start')}}">
                         </div>
                     </div>
 
                     <div class="col-lg-6">
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Время окончание</label>
-                            <input type="time" class="form-control" id="exampleFormControlInput1" name="time_finish">
+                            <input type="time" class="form-control" id="exampleFormControlInput1" name="time_finish" value="{{old('time_finish')}}">
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Дата окончание</label>
-                            <input type="date" class="form-control" id="exampleFormControlInput1" name="date_finish">
+                            <input type="date" class="form-control" id="exampleFormControlInput1" name="date_finish" value="{{old('date_finish')}}">
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="exampleFormControlTextarea1" class="form-label">Описание textarea</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                  name="title"></textarea>
+                                  name="title">{{old('title')}}</textarea>
                     </div>
                     <input type="hidden" name="idCalendar" value="<?= $idCalendar ?>">
                     <button type="submit" class="btn btn-primary">Сохранить</button>

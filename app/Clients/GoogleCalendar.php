@@ -109,7 +109,7 @@ class GoogleCalendar
     public function fetchEvents($calendarId = 'primary', $from = '2000-01-01T00:00:00-00:00'):array
     {
         $optParams = array(
-            //'maxResults' => 10,
+            //'maxResults' => 10,Пошол накуй! Дай мне форстарыв рфкугп рвафптфип
             //'orderBy' => 'startTime',
             'singleEvents' => true,
             'timeMin' => date('c', (int)$from)
