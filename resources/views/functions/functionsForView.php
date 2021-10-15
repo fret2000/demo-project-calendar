@@ -63,4 +63,80 @@ function getCell($CurrentDay, $DayStart, $DayFinish, $hourStart, $HourFinish, $s
     return $cell;
 }
 
+function getDurationEventTime(
+    $current =
+    [
+        'date'=>"d-m-Y",
+        'time'=>'unix'
+    ],
+    $event =
+    [
+        'start' =>
+            [
+                'date' => "d-m-Y",
+                'time' => 'unix'
+            ],
+        'finish' =>
+            [
+                'date' => "d-m-Y",
+                'time' => 'unix'
+            ]
+    ],
+    $workDayTime =
+    [
+        'start' => 'unix',
+        'finish' => 'unix'
+    ]
+){
+    $isReadyToDisplay = false;
+    $eventBeginTimeToday = 0;
+    $eventEndTimeToday = 0;
 
+    $currentDate = 0;
+    $currentTime = 0;
+    $step = 0;
+
+    $eventStartDate = 0;
+    $eventFinishDate = 0;
+    $eventStartTime = 0;
+    $eventFinishTime = 0;
+
+    $workDayStartTime = 0;
+    $workDayFinishTime = 0;
+
+    if($currentDate == $eventStartDate)
+    {
+        if($currentDate == $eventFinishDate)
+        {
+            $eventEndTimeToday = min($eventFinishTime, $workDayFinishTime);
+        }
+        else
+        {
+            $eventEndTimeToday = $workDayFinishTime;
+        }
+        $eventBeginTimeToday = $eventStartTime;
+        $isReadyToDisplay = ($currentTime <= $eventStartTime && $eventStartTime <= $currentTime + $step);
+    }
+    elseif($currentDate == $eventFinishDate)
+    {
+        if($eventFinishTime > $workDayStartTime)
+        {
+            $eventEndTimeToday = $eventFinishTime;
+            $eventBeginTimeToday = $workDayStartTime;
+
+            $isReadyToDisplay = ($currentTime == $workDayStartTime);
+        }
+    }
+    elseif($eventStartDate < $currentDate && $currentDate < $eventFinishDate){
+        $eventEndTimeToday = $workDayFinishTime;
+        $eventBeginTimeToday = $workDayStartTime;
+
+        $isReadyToDisplay = ($currentTime == $workDayStartTime);
+    }
+
+    $durationEventTime = $eventEndTimeToday - $eventBeginTimeToday;
+    if($isReadyToDisplay)
+    {
+        display();
+    }
+}
