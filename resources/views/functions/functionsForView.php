@@ -94,3 +94,32 @@ function getDurationEventTime(
         'offset' => $eventBeginTimeToday - $current['time']
     ];
 }
+function contain(
+    $eventDateTime1 =
+    [
+        'start' => '0',
+        'finish' => '0'
+    ],
+    $eventDateTime2 =
+    [
+        'start' => '0',
+        'finish' => '0'
+    ]
+){
+    $e1 = $eventDateTime1;
+    $e2 = $eventDateTime2;
+
+    return(
+        (
+        $e2['start'] <= $e1['start'] && $e1['start'] <= $e2['finish']
+        ||
+        $e2['start'] <= $e1['finish'] && $e1['finish'] <= $e2['finish']
+        )
+        ||
+        (
+        $e1['start'] <= $e2['start'] && $e2['start'] <= $e1['finish']
+        ||
+        $e1['start'] <= $e2['finish'] && $e2['finish'] <= $e1['finish']
+        )
+    );
+}

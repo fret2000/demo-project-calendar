@@ -56,8 +56,27 @@ $cellWidth = 110;
             $columnDate = $currentDate + $td*60*60*24;
         ?>
         <td class="calendar__cell">
-            @foreach($events as $event)
+            <?php
+            $eventCollection = array();
+            foreach ($events as $event1)
+            {
+                $collapsed = false;
+                foreach ($events as $event2)
+                {
+                    if ($event1['id'] == $event2['id'])
+                    {
+                        continue;
+                    }
+                    $collapsed = contain(['start' => $event1['date_start'], 'finish' => $event1['date_finish']], ['start' => $event2['date_start'], 'finish' => $event2['date_finish']]);
+                }
+                $eventCollection[] = ['event' => $event1, 'collapsed' => $collapsed];
+            }
+            ?>
+
+            @foreach($eventCollection as $item)
                 <?php
+                    $event = $item['event'];
+
                     $parseDateTimeStart = explode(' ', $event['date_start']);
                     $parseDateStart = $parseDateTimeStart[0];
                     $parseTimeStart = explode(':', $parseDateTimeStart[1]);
@@ -100,6 +119,7 @@ $cellWidth = 110;
 
                     $HourStart = $hourStart*60;
                     $HourFinish = $hourFinish*60;
+
                     $workDay = array(
                         'start' => $HourStart,
                         'finish' => $HourFinish
@@ -111,10 +131,17 @@ $cellWidth = 110;
                         {
                             $topPosition = round($result['offset'] / 15 * $cellHeight);
                             $cell = $cellHeight * ($result['duration'] / $minuteStep);
+                            $float = "left";
+
+                            if($item['collapsed'])
+                                {
+                                    $cellWidth = $cellWidth /1.1;
+                                    $float = "right";
+                                }
                     ?>
 
                     <div class="calendar__event"
-                         style="top:{{ $topPosition }}px; left:5px; height: {{$cell+$cellHeight}}px; width: {{$cellWidth}}px">
+                         style="top:{{ $topPosition }}px; left:5px; height: {{$cell+$cellHeight}}px; width: {{$cellWidth}}px; background-color: rgb({{rand(100,255)}}, {{rand(100,255)}}, {{rand(100,255)}}); border: solid 1px; float: {{$float}};">
                         <div>
                             <?php echo $event['title']?><br><?php echo $parseDateTimeStart[1] ?>
 
