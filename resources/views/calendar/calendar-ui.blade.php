@@ -80,58 +80,51 @@ $cellWidth = 110;
 
                     $curDay =
                         [
-                          "day" => $columnDate,
-                          'HourAndMinutes' => ($hour['hour'] * 60) + $hour['minute']
+                          "date" => $columnDate,
+                          'time' => ($hour['hour'] * 60) + $hour['minute']
                         ];
                     $DayStart =
                         [
-                            "day" => $parseDateStart,
-                            'HourAndMinutes' => ($parseTimeStart[0] * 60) + $parseTimeStart[1]
+                            "date" => $parseDateStart,
+                            'time' => ($parseTimeStart[0] * 60) + $parseTimeStart[1]
                         ];
                     $DayFinish =
                         [
-                            "day" => $parseDateFinish,
-                            'HourAndMinutes' => ($parseTimeFinish[0] * 60) + $parseTimeFinish[1]
+                            "date" => $parseDateFinish,
+                            'time' => ($parseTimeFinish[0] * 60) + $parseTimeFinish[1]
                         ];
+                    $Event = array(
+                        'start' => $DayStart,
+                        'finish' => $DayFinish
+                    );
+
                     $HourStart = $hourStart*60;
                     $HourFinish = $hourFinish*60;
-                ?>
-                @if (($hour['hour'] == $parseTimeStart[0] ) && $hour['minute'] == $parseTimeStart[1])
-                    <?php
-                        if($dayStart <= $columnDate && $columnDate <= $dayFinish)
-                        {
-                            $topPosition = round(0 / 15 * $cellHeight);
-                            if ($parseDateStart == $parseDateFinish && $event['is_accepted'] == 1)
-                            {
-                                $diffMinutes = ($dateFinish - $dateStart) / 60;
-                                $cell = $cellHeight * ($diffMinutes / 15);
-                    ?>
-                            <div class="calendar__event"
-                                style="top:{{ $topPosition }}px; left:5px; height: {{$cell+$cellHeight}}px; width: {{$cellWidth}}px">
-                                <div>
-                                    <?php echo $event['title']?><br><?php echo $parseDateTimeStart[1] ?>
+                    $workDay = array(
+                        'start' => $HourStart,
+                        'finish' => $HourFinish
+                    );
 
-                                </div>
-                            </div>
-                        <?php
-                            }
-                            elseif ($parseDateStart < $parseDateFinish && $event['is_accepted'] == 1)
-                            {
-                                $diffMinutes = ($dateFinish - $dateStart) / 60;
-                                $cell = $cellHeight * (getCell($curDay, $DayStart, $DayFinish, $hourStart, $HourFinish, $minuteStep) / 15);
-                        ?>
-                            <div class="calendar__event"
-                                style="top:{{ $topPosition }}px; left:5px; height: {{$cell+$cellHeight}}px; width: {{$cellWidth}}px">
-                                <div>
-                                    <?php echo $event['title']?><br><?php echo $parseDateTimeStart[1];?>
-                                </div>
-                            </div>
-                        <?php
-                            }
+                    $result = getDurationEventTime($curDay, $Event, $workDay, $minuteStep);
+
+                    if($result['display'])
+                        {
+                            $topPosition = round($result['offset'] / 15 * $cellHeight);
+                            $cell = $cellHeight * ($result['duration'] / $minuteStep);
+                    ?>
+
+                    <div class="calendar__event"
+                         style="top:{{ $topPosition }}px; left:5px; height: {{$cell+$cellHeight}}px; width: {{$cellWidth}}px">
+                        <div>
+                            <?php echo $event['title']?><br><?php echo $parseDateTimeStart[1] ?>
+
+                        </div>
+                    </div>
+
+                    <?php
                         }
-                        ?>
-                @endif
-            @endforeach
+                    ?>
+                @endforeach
         </td>
         <? } ?>
     </tr>
